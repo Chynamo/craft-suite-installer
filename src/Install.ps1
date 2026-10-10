@@ -372,7 +372,7 @@ function Run-AppInstall([string]$name,[string]$target,[bool]$anotherCopy=$false)
   Remember-Copy $result.destination $name;$script:InstalledTarget=$null;$install.Text='Install / update selected'
   $status.Text=$name+' is ready.';$detail.Text='Open it from its card. Your other apps were kept.'
  }catch{Action-Error $_}
- finally{$script:Busy=$false;$toolbar.Enabled=$true;$cards.Enabled=$true;$choices.Enabled=$true;Refresh-AppCards $true}
+ finally{$script:Busy=$false;$toolbar.Enabled=$true;$cards.Enabled=$true;$choices.Enabled=$true;Refresh-AppCards $false;if($target -eq $location.Text -and $script:AppStates[$name].status -eq 'Up to date'){$script:AppChecks[$name].Checked=$false}}
 }
 function Install-AnotherCopy([string]$name){
  try{
@@ -442,7 +442,7 @@ if($ActionTestRoot){
  $script:TestLaunched=$null
  $grid=$script:AppButtons['GridCraft'];$location.Text=Join-Path $ActionTestRoot 'First copy';Refresh-AppCards $true
  if($grid.Text -ne 'Install'){throw 'Fresh card must offer Install'}
- $shortcuts.Checked=$false;$grid.PerformClick()
+ $shortcuts.Checked=$false;$script:AppChecks['FilmCraft'].Checked=$false;$grid.PerformClick();if($script:AppChecks['FilmCraft'].Checked){throw 'Single-app install reset another selection'}
  if($grid.Text -ne 'Open'){throw 'Installed card must offer Open'}
  $first=$location.Text;$firstExe=(Resolve-AppLaunch (@($script:Manifest.apps | Where-Object name -eq 'GridCraft')[0]) $first).exe
  $firstHash=File-Hash $firstExe
