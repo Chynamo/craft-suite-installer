@@ -1,13 +1,13 @@
-# Craft Suite â€” Windows installer
+# Craft Suite — Windows installer
 
 Twelve creative apps. One simple, offline installation.
 
-**[Download the Windows x64 installer ZIP](https://github.com/Chynamo/craft-suite-installer/releases/download/v1.2.1-preview.1/Craft-Suite-1.2.1-Windows-x64-Setup.zip)** Â· [Release and checksum](https://github.com/Chynamo/craft-suite-installer/releases/tag/v1.2.1-preview.1)
+**[Download the Windows x64 installer ZIP](https://github.com/Chynamo/craft-suite-installer/releases/download/v1.2.1-preview.1/Craft-Suite-1.2.1-Windows-x64-Setup.zip)** · [Release and checksum](https://github.com/Chynamo/craft-suite-installer/releases/tag/v1.2.1-preview.1)
 
 ## Install
 
 1. Download **Craft-Suite-1.2.1-Windows-x64-Setup.zip** (about 638 MB).
-2. Right-click the ZIP â†’ **Extract All**. Open the extracted folder.
+2. Right-click the ZIP → **Extract All**. Open the extracted folder.
 3. Double-click **Setup.exe**, choose a folder and tick the apps you want and select **Install / update selected**.
 
 Keep `InstallerData` beside `Setup.exe`. All apps are included: no downloads, account or administrator access is normally needed during installation. A USB copy works too.
@@ -24,7 +24,20 @@ The last successful graphical installation folder is remembered locally. Version
 
 ## Included apps
 
-FilmCraft Â· EffectCraft Â· SoundCraft Â· PhotoCraft Â· LightCraft Â· VectorCraft Â· DesignCraft Â· CADCraft Â· PdfCraft Â· WordCraft Â· GridCraft Â· DeckCraft.
+| App | Familiar workflow |
+| --- | --- |
+| [FilmCraft](https://github.com/storytold/filmcraft) | Premiere Pro |
+| [EffectCraft](https://github.com/storytold/effectcraft) | After Effects |
+| [SoundCraft](https://github.com/storytold/soundcraft) | Pro Tools |
+| [PhotoCraft](https://github.com/storytold/photocraft) | Photoshop |
+| [LightCraft](https://github.com/storytold/lightcraft) | Lightroom |
+| [VectorCraft](https://github.com/storytold/vectorcraft) | Illustrator |
+| [DesignCraft](https://github.com/storytold/designcraft) | InDesign |
+| [CADCraft](https://github.com/storytold/cadcraft) | AutoCAD |
+| [PdfCraft](https://github.com/storytold/pdfcraft) | Acrobat |
+| [WordCraft](https://github.com/storytold/wordcraft) | Word |
+| [GridCraft](https://github.com/storytold/gridcraft) | Excel |
+| [DeckCraft](https://github.com/storytold/deckcraft) | PowerPoint |
 
 For video, motion graphics, audio, photography, illustration, layouts, CAD and documents. Versions and original release links are in [bundle.lock.json](bundle.lock.json). ArtCraft Studio is excluded.
 
