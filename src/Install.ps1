@@ -1,5 +1,5 @@
 ﻿[CmdletBinding()]
-param([string]$Destination,[switch]$NoShortcuts,[switch]$VerifyOnly,[string]$PreviewImage,[string]$ShortcutRoot,[string]$GuiTestDestination,[string]$GuiTestImage,[int]$PreviewWidth=0,[string]$Apps,[string]$InspectDestination,[string]$PreferenceRoot)
+param([string]$Destination,[switch]$NoShortcuts,[switch]$VerifyOnly,[string]$PreviewImage,[string]$ShortcutRoot,[string]$GuiTestDestination,[string]$GuiTestImage,[int]$PreviewWidth=0,[string]$Apps,[string]$InspectDestination,[string]$PreferenceRoot,[string]$PreviewCategory)
 $ErrorActionPreference='Stop'
 $script:BundleRoot=$PSScriptRoot
 $script:Manifest=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'bundle.json') -Raw | ConvertFrom-Json
@@ -207,66 +207,104 @@ if($Destination){$result=Install-Suite $Destination (-not $NoShortcuts) $request
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [Windows.Forms.Application]::EnableVisualStyles()
-$form=New-Object Windows.Forms.Form
-$form.Text='Craft Suite Setup';$form.StartPosition='CenterScreen';$form.Font=[Drawing.Font]::new('Segoe UI',10);$form.BackColor=[Drawing.Color]::FromArgb(245,247,251)
-$form.ClientSize=[Drawing.Size]::new(780,[Math]::Min(740,[Windows.Forms.Screen]::PrimaryScreen.WorkingArea.Height-100));$form.MinimumSize=[Drawing.Size]::new(680,540);$form.MaximizeBox=$false
-function Text-Control($parent,$text,$x,$y,$width,$height,$points=10,$bold=$false,$colour='#243249'){
- $c=New-Object Windows.Forms.Label;$c.Text=$text;$c.Location=[Drawing.Point]::new($x,$y);$c.Size=[Drawing.Size]::new($width,$height);$style=[Drawing.FontStyle]::Regular;if($bold){$style=[Drawing.FontStyle]::Bold};$c.Font=[Drawing.Font]::new('Segoe UI',$points,$style);$c.ForeColor=[Drawing.ColorTranslator]::FromHtml($colour);$parent.Controls.Add($c);return $c
+Add-Type -TypeDefinition @'
+using System; using System.Drawing; using System.Drawing.Drawing2D; using System.Windows.Forms;
+public class CraftSuiteCard : Panel {
+ public bool Selected=false;
+ public CraftSuiteCard(){DoubleBuffered=true;BackColor=Color.FromArgb(246,247,250);}
+ protected override void OnPaint(PaintEventArgs e){
+  base.OnPaint(e);e.Graphics.SmoothingMode=SmoothingMode.AntiAlias;
+  RectangleF r=new RectangleF(1,1,Width-3,Height-3);float d=16;
+  using(GraphicsPath p=new GraphicsPath()){
+   p.AddArc(r.Left,r.Top,d,d,180,90);p.AddArc(r.Right-d,r.Top,d,d,270,90);
+   p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90);p.AddArc(r.Left,r.Bottom-d,d,d,90,90);p.CloseFigure();
+   using(Brush b=new SolidBrush(Selected?Color.FromArgb(239,244,253):Color.White))e.Graphics.FillPath(b,p);
+   using(Pen pen=new Pen(Selected?Color.FromArgb(83,116,183):Color.FromArgb(221,226,234),Selected?1.5f:1f))e.Graphics.DrawPath(pen,p);
+  }
+ }
 }
-$header=New-Object Windows.Forms.Panel;$header.Width=780;$header.Dock='Top';$header.Height=130;$header.BackColor=[Drawing.ColorTranslator]::FromHtml('#182b4b')
-[void](Text-Control $header 'CRAFT SUITE' 24 16 680 20 10 $true '#aac9ff')
-[void](Text-Control $header 'Your creative toolkit.' 24 40 680 46 27 $true '#ffffff')
-[void](Text-Control $header 'Choose your apps. Add or update them later, offline.' 26 93 680 25 11 $false '#d5e2f5')
-$footer=New-Object Windows.Forms.Panel;$footer.Width=780;$footer.Dock='Bottom';$footer.Height=98;$footer.BackColor=[Drawing.Color]::White
-$body=New-Object Windows.Forms.Panel;$body.Width=780;$body.Dock='Fill';$body.AutoScroll=$true
-$choices=New-Object Windows.Forms.Panel;$choices.Width=780;$choices.Height=110;$choices.Dock='Bottom';$choices.BackColor=$form.BackColor
-$content=New-Object Windows.Forms.Panel;$content.Location=[Drawing.Point]::new(24,16);$content.Size=[Drawing.Size]::new(732,392);$content.Anchor='Top,Left,Right';$body.Controls.Add($content)
-[void](Text-Control $content 'Choose what you want to install' 0 0 470 28 13 $true)
-$cards=New-Object Windows.Forms.TableLayoutPanel;$cards.Location=[Drawing.Point]::new(-5,34);$cards.Size=[Drawing.Size]::new(742,344);$cards.Anchor='Top,Left,Right';$cards.ColumnCount=3;$cards.RowCount=4
-for($i=0;$i -lt 3;$i++){[void]$cards.ColumnStyles.Add([Windows.Forms.ColumnStyle]::new([Windows.Forms.SizeType]::Percent,33.3333))}
-for($i=0;$i -lt 4;$i++){[void]$cards.RowStyles.Add([Windows.Forms.RowStyle]::new([Windows.Forms.SizeType]::Percent,25))}
+'@ -ReferencedAssemblies System.Drawing,System.Windows.Forms
+$form=New-Object Windows.Forms.Form
+$form.Text='Craft Suite Setup';$form.StartPosition='CenterScreen';$form.Font=[Drawing.Font]::new('Segoe UI',10);$form.BackColor=[Drawing.ColorTranslator]::FromHtml('#f6f7fa')
+$form.ClientSize=[Drawing.Size]::new(940,[Math]::Min(850,[Windows.Forms.Screen]::PrimaryScreen.WorkingArea.Height-100));$form.MinimumSize=[Drawing.Size]::new(650,580);$form.MaximizeBox=$true
+function Text-Control($parent,$text,$x,$y,$width,$height,$points=10,$bold=$false,$colour='#243249'){
+ $c=New-Object Windows.Forms.Label;$c.UseMnemonic=$false;$c.Text=$text;$c.BackColor=[Drawing.Color]::Transparent;$c.Location=[Drawing.Point]::new($x,$y);$c.Size=[Drawing.Size]::new($width,$height);$style=[Drawing.FontStyle]::Regular;if($bold){$style=[Drawing.FontStyle]::Bold};$c.Font=[Drawing.Font]::new('Segoe UI',$points,$style);$c.ForeColor=[Drawing.ColorTranslator]::FromHtml($colour);$parent.Controls.Add($c);return $c
+}
+function Plain-Button($parent,$text,$x,$y,$width){
+ $b=New-Object Windows.Forms.Button;$b.UseMnemonic=$false;$b.Text=$text;$b.Location=[Drawing.Point]::new($x,$y);$b.Size=[Drawing.Size]::new($width,30);$b.FlatStyle='Flat';$b.FlatAppearance.BorderColor=[Drawing.ColorTranslator]::FromHtml('#d7dde7');$b.BackColor=[Drawing.Color]::White;$b.Font=[Drawing.Font]::new('Segoe UI',9);$parent.Controls.Add($b);return $b
+}
+$header=New-Object Windows.Forms.Panel;$header.Width=940;$header.Dock='Top';$header.Height=112;$header.BackColor=[Drawing.ColorTranslator]::FromHtml('#192d4b')
+[void](Text-Control $header 'CRAFT SUITE' 28 17 650 20 9 $true '#a7c5f6')
+[void](Text-Control $header 'Make room for your next idea.' 26 39 840 39 25 $true '#ffffff')
+[void](Text-Control $header 'Choose your tools. Install them once. Add more whenever you need them.' 28 82 860 22 10 $false '#d5e2f5')
+$toolbar=New-Object Windows.Forms.Panel;$toolbar.Width=940;$toolbar.Dock='Top';$toolbar.Height=94;$toolbar.BackColor=$form.BackColor
+[void](Text-Control $toolbar 'Your apps' 28 12 280 29 16 $true)
+$selectAll=Plain-Button $toolbar 'Select all apps' 668 12 112;$selectAll.Anchor='Top,Right'
+$selectNone=Plain-Button $toolbar 'Clear selection' 792 12 120;$selectNone.Anchor='Top,Right'
+$script:Category='All apps';$script:CategoryButtons=@{}
+$categories=@('All apps','Video & audio','Photo & design','Documents & CAD');$cx=28
+foreach($categoryName in $categories){$button=Plain-Button $toolbar $categoryName $cx 54 132;$button.Tag=$categoryName;$script:CategoryButtons[$categoryName]=$button;$button.Add_Click({$script:Category=$this.Tag;Layout-AppCards});$cx+=142}
+$footer=New-Object Windows.Forms.Panel;$footer.Width=940;$footer.Dock='Bottom';$footer.Height=96;$footer.BackColor=[Drawing.Color]::White
+$choices=New-Object Windows.Forms.Panel;$choices.Width=940;$choices.Dock='Bottom';$choices.Height=104;$choices.BackColor=[Drawing.Color]::White
+$body=New-Object Windows.Forms.Panel;$body.Width=940;$body.Dock='Fill';$body.AutoScroll=$true
+$content=New-Object Windows.Forms.Panel;$content.Location=[Drawing.Point]::new(22,4);$content.Size=[Drawing.Size]::new(896,530);$content.Anchor='Top,Left,Right';$body.Controls.Add($content)
+$cards=New-Object Windows.Forms.FlowLayoutPanel;$cards.Location=[Drawing.Point]::new(0,0);$cards.Size=[Drawing.Size]::new(896,520);$cards.WrapContents=$true;$cards.FlowDirection='LeftToRight';$content.Controls.Add($cards)
 $descriptions=@{FilmCraft='Premiere Pro-style editor';EffectCraft='After Effects-style motion';SoundCraft='Pro Tools-style audio';PhotoCraft='Photoshop-style editor';LightCraft='Lightroom-style library';VectorCraft='Illustrator-style drawing';DesignCraft='InDesign-style layouts';CADCraft='AutoCAD-style drafting';PdfCraft='Acrobat-style PDF tools';WordCraft='Word-style documents';GridCraft='Excel-style spreadsheets';DeckCraft='PowerPoint-style slides'}
 $order=@('FilmCraft','EffectCraft','SoundCraft','PhotoCraft','LightCraft','VectorCraft','DesignCraft','CADCraft','PdfCraft','WordCraft','GridCraft','DeckCraft')
-$script:AppTips=New-Object Windows.Forms.ToolTip;$script:AppChecks=@{};$script:AppLabels=@{};$script:AppStates=@{};$script:Refreshing=$false
-$selectAll=New-Object Windows.Forms.Button;$selectAll.Text='Select all';$selectAll.Anchor='Top,Right';$selectAll.Location=[Drawing.Point]::new(494,-2);$selectAll.Size=[Drawing.Size]::new(110,28);$content.Controls.Add($selectAll)
-$selectNone=New-Object Windows.Forms.Button;$selectNone.Text='Select none';$selectNone.Anchor='Top,Right';$selectNone.Location=[Drawing.Point]::new(616,-2);$selectNone.Size=[Drawing.Size]::new(110,28);$content.Controls.Add($selectNone)
-$n=0
+$script:Groups=@{};foreach($name in $order){$script:Groups[$name]='Documents & CAD'};foreach($name in @('FilmCraft','EffectCraft','SoundCraft')){$script:Groups[$name]='Video & audio'};foreach($name in @('PhotoCraft','LightCraft','VectorCraft','DesignCraft')){$script:Groups[$name]='Photo & design'}
+$script:AppTips=New-Object Windows.Forms.ToolTip;$script:AppChecks=@{};$script:AppLabels=@{};$script:AppStates=@{};$script:CardViews=@{};$script:Refreshing=$false;$script:LayoutBusy=$false
 foreach($name in $order){
- $card=New-Object Windows.Forms.Panel;$card.Dock='Fill';$card.Margin=[Windows.Forms.Padding]::new(5);$card.BackColor=[Drawing.Color]::White
- $check=New-Object Windows.Forms.CheckBox;$check.Text=$name;$check.Checked=$true;$check.Font=[Drawing.Font]::new('Segoe UI',10,[Drawing.FontStyle]::Bold);$check.Location=[Drawing.Point]::new(10,6);$check.Size=[Drawing.Size]::new(210,23);$check.Anchor='Top,Left,Right';$card.Controls.Add($check);$script:AppChecks[$name]=$check
- $description=Text-Control $card $descriptions[$name] 28 31 198 17 9 $false '#607087';$description.Anchor='Top,Left,Right'
- $stateLabel=Text-Control $card '' 28 49 198 31 8 $false '#607087';$stateLabel.Anchor='Top,Left,Right';$script:AppLabels[$name]=$stateLabel
+ $card=New-Object CraftSuiteCard;$card.Size=[Drawing.Size]::new(286,132);$card.Margin=[Windows.Forms.Padding]::new(6);$card.Selected=$true;$script:CardViews[$name]=$card
+ $icon=New-Object Windows.Forms.PictureBox;$icon.Location=[Drawing.Point]::new(18,19);$icon.Size=[Drawing.Size]::new(32,32);$icon.BackColor=[Drawing.Color]::Transparent
+ $iconFile=Join-Path $script:BundleRoot ('AppIcons\'+$name+'.png');if(Test-Path -LiteralPath $iconFile){$icon.Image=[Drawing.Image]::FromFile($iconFile)};$card.Controls.Add($icon)
+ $title=Text-Control $card $name 62 15 206 26 12 $true;$title.Anchor='Top,Left,Right'
+ $description=Text-Control $card $descriptions[$name] 62 41 206 21 9 $false '#627187';$description.Anchor='Top,Left,Right'
+ $group=Text-Control $card $script:Groups[$name] 18 73 248 20 8 $false '#6e7a8d';$group.Anchor='Top,Left,Right'
+ $stateLabel=Text-Control $card '' 18 100 148 22 9 $false '#627187';$stateLabel.Anchor='Top,Left,Right';$script:AppLabels[$name]=$stateLabel
+ $check=New-Object Windows.Forms.CheckBox;$check.Text='Include';$check.Checked=$true;$check.Location=[Drawing.Point]::new(192,97);$check.Size=[Drawing.Size]::new(76,26);$check.BackColor=[Drawing.Color]::Transparent;$check.Anchor='Top,Right';$card.Controls.Add($check);$script:AppChecks[$name]=$check
  $check.Add_CheckedChanged({if(-not $script:Refreshing){Update-SelectionSummary}})
- $cards.Controls.Add($card,($n%3),[Math]::Floor($n/3));$n++
+ $toggle={if($check.Enabled -and -not $script:Busy){$check.Checked=-not $check.Checked}}.GetNewClosure();$card.Add_Click($toggle);$title.Add_Click($toggle);$icon.Add_Click($toggle)
+ $cards.Controls.Add($card)
 }
-$content.Controls.Add($cards)
-[void](Text-Control $choices 'Where would you like to install them?' 24 8 650 24 10 $true)
-$location=New-Object Windows.Forms.TextBox;$location.Location=[Drawing.Point]::new(24,37);$location.Size=[Drawing.Size]::new(616,27);$location.Anchor='Top,Left,Right'
-$location.Text=Join-Path $env:LOCALAPPDATA 'Craft Suite';if(Test-Path -LiteralPath 'D:\'){$location.Text='D:\Craft Suite'};$choices.Controls.Add($location)
-$browse=New-Object Windows.Forms.Button;$browse.Text='Choose folder';$browse.Location=[Drawing.Point]::new(652,34);$browse.Size=[Drawing.Size]::new(104,33);$browse.Anchor='Top,Right';$browse.FlatStyle='Flat';$browse.FlatAppearance.BorderColor=[Drawing.ColorTranslator]::FromHtml('#ccd6e4');$browse.BackColor=[Drawing.Color]::White;$choices.Controls.Add($browse)
+function Sync-CardStyles {foreach($name in $order){$script:CardViews[$name].Selected=$script:AppChecks[$name].Checked;$script:CardViews[$name].Invalidate()}}
+function Layout-AppCards {
+ if($script:LayoutBusy){return};$script:LayoutBusy=$true
+ try{
+  $width=[Math]::Max(540,$body.ClientSize.Width-44);$cols=2;if($width -ge 810){$cols=3}
+  $cardWidth=[int][Math]::Floor($width/$cols)-12;$visible=0;$cards.SuspendLayout()
+  foreach($name in $order){$card=$script:CardViews[$name];$showCard=($script:Category -eq 'All apps' -or $script:Groups[$name] -eq $script:Category);$card.Visible=$showCard;$card.Size=[Drawing.Size]::new($cardWidth,132);if($showCard){$visible++}}
+  $cards.Width=$width;$content.Width=$width;$height=[int][Math]::Ceiling($visible/$cols)*144;$cards.Height=[Math]::Max(144,$height);$content.Height=$cards.Height+10;$cards.ResumeLayout()
+  foreach($categoryName in $categories){$b=$script:CategoryButtons[$categoryName];$b.BackColor=[Drawing.Color]::White;$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#526078');if($categoryName -eq $script:Category){$b.BackColor=[Drawing.ColorTranslator]::FromHtml('#e7edf8');$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#234d91')}}
+ }finally{$script:LayoutBusy=$false}
+}
+$body.Add_SizeChanged({Layout-AppCards})
+[void](Text-Control $choices 'Installation folder' 28 8 600 22 10 $true)
+$location=New-Object Windows.Forms.TextBox;$location.Location=[Drawing.Point]::new(28,35);$location.Size=[Drawing.Size]::new(754,27);$location.Anchor='Top,Left,Right';$location.Text=Join-Path $env:LOCALAPPDATA 'Craft Suite';if(Test-Path -LiteralPath 'D:\'){$location.Text='D:\Craft Suite'};$choices.Controls.Add($location)
+$browse=Plain-Button $choices 'Choose folder' 796 33 116;$browse.Anchor='Top,Right'
 $browse.Add_Click({$dialog=New-Object Windows.Forms.FolderBrowserDialog;$dialog.Description='Choose a parent folder. Craft Suite will be added inside it.';$dialog.ShowNewFolderButton=$true;if($dialog.ShowDialog() -eq 'OK'){$location.Text=Join-Path $dialog.SelectedPath 'Craft Suite'};$dialog.Dispose()})
-$shortcuts=New-Object Windows.Forms.CheckBox;$shortcuts.Text='Add easy-to-find Desktop and Start Menu shortcuts';$shortcuts.Checked=$true;$shortcuts.Location=[Drawing.Point]::new(24,78);$shortcuts.Size=[Drawing.Size]::new(650,26);$choices.Controls.Add($shortcuts)
-$progress=New-Object Windows.Forms.ProgressBar;$progress.Location=[Drawing.Point]::new(24,11);$progress.Size=[Drawing.Size]::new(732,6);$progress.Anchor='Top,Left,Right';$footer.Controls.Add($progress)
-$status=Text-Control $footer 'Ready when you are.' 24 28 494 23 10 $true
-$status.Anchor='Top,Left,Right'
-$detail=Text-Control $footer 'Windows 10/11 x64. About 1.4 GB installed. No downloads.' 24 53 494 23 9 $false '#607087';$detail.Anchor='Top,Left,Right'
-$install=New-Object Windows.Forms.Button;$install.Text='Install / update selected';$install.Location=[Drawing.Point]::new(540,29);$install.Size=[Drawing.Size]::new(216,46);$install.Anchor='Top,Right';$install.BackColor=[Drawing.ColorTranslator]::FromHtml('#244f9c');$install.ForeColor=[Drawing.Color]::White;$install.Font=[Drawing.Font]::new('Segoe UI',11,[Drawing.FontStyle]::Bold);$install.FlatStyle='Flat';$install.FlatAppearance.BorderSize=0;$footer.Controls.Add($install)
-$form.Controls.Add($body);$form.Controls.Add($choices);$form.Controls.Add($footer);$form.Controls.Add($header);$body.BringToFront()
+$shortcuts=New-Object Windows.Forms.CheckBox;$shortcuts.Text='Add Desktop and Start Menu shortcuts';$shortcuts.Checked=$true;$shortcuts.Location=[Drawing.Point]::new(28,70);$shortcuts.Size=[Drawing.Size]::new(600,25);$choices.Controls.Add($shortcuts)
+$progress=New-Object Windows.Forms.ProgressBar;$progress.Location=[Drawing.Point]::new(28,8);$progress.Size=[Drawing.Size]::new(884,5);$progress.Anchor='Top,Left,Right';$footer.Controls.Add($progress)
+$status=Text-Control $footer 'Choose your tools.' 28 24 636 26 11 $true;$status.Anchor='Top,Left,Right'
+$detail=Text-Control $footer '' 28 53 636 23 9 $false '#627187';$detail.Anchor='Top,Left,Right'
+$install=Plain-Button $footer 'Install / update selected' 690 26 222;$install.Height=46;$install.Anchor='Top,Right';$install.BackColor=[Drawing.ColorTranslator]::FromHtml('#254f97');$install.ForeColor=[Drawing.Color]::White;$install.Font=[Drawing.Font]::new('Segoe UI',10,[Drawing.FontStyle]::Bold);$install.FlatAppearance.BorderSize=0
+$form.Controls.Add($body);$form.Controls.Add($choices);$form.Controls.Add($footer);$form.Controls.Add($toolbar);$form.Controls.Add($header);$body.BringToFront()
+
 $script:Busy=$false;$script:InstalledTarget=$null;$script:UiError=$null
 $form.Add_FormClosing({param($sender,$eventArgs)if($script:Busy){$eventArgs.Cancel=$true}})
 $script:ProgressCallback={param($message,$percent)$status.Text=$message;$progress.Value=$percent;[Windows.Forms.Application]::DoEvents()}
 $install.Add_Click({
  if($script:InstalledTarget){Start-Process -FilePath 'explorer.exe' -ArgumentList ('"'+(Join-Path $script:InstalledTarget 'Launchers')+'"');$form.Close();return}
- $script:Busy=$true;$install.Enabled=$false;$cards.Enabled=$false;$selectAll.Enabled=$false;$selectNone.Enabled=$false;$location.Enabled=$false;$browse.Enabled=$false;$shortcuts.Enabled=$false;$detail.Text='Please keep this window open while your apps are installed.'
+ $script:Busy=$true;$install.Enabled=$false;$cards.Enabled=$false;$selectAll.Enabled=$false;$selectNone.Enabled=$false;$toolbar.Enabled=$false;$location.Enabled=$false;$browse.Enabled=$false;$shortcuts.Enabled=$false;$detail.Text='Please keep this window open while your apps are installed.'
  try{$names=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked});$result=Install-Suite $location.Text $shortcuts.Checked $names;$script:InstalledTarget=$result.destination;$install.Text='Open your apps';$status.Text="You're ready to create.";$noun='apps';if($result.selected.Count -eq 1){$noun='app'};$detail.Text=($result.selected.Count.ToString()+' '+$noun+' ready. Other apps were kept.');Refresh-AppCards $false}
  catch{$script:UiError=$_.Exception.Message;$status.Text='Setup could not finish.';$detail.Text='Your existing files have been preserved.';if(-not $GuiTestDestination){[void][Windows.Forms.MessageBox]::Show($form,$script:UiError,'Setup needs your attention','OK','Information')};$location.Enabled=$true;$browse.Enabled=$true;$shortcuts.Enabled=$true}
- finally{$script:Busy=$false;$install.Enabled=$true;$cards.Enabled=$true;$selectAll.Enabled=$true;$selectNone.Enabled=$true}
+ finally{$script:Busy=$false;$install.Enabled=$true;$cards.Enabled=$true;$selectAll.Enabled=$true;$selectNone.Enabled=$true;$toolbar.Enabled=$true}
 })
 function Update-SelectionSummary {
  if($script:Busy -or $script:InstalledTarget){return}
+ Sync-CardStyles
  $names=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked})
  $bytes=0;foreach($app in $script:Manifest.apps){if($names -contains $app.name){$bytes+=$app.installedBytes}}
- $detail.Text=('{0} selected - approx. {1:N0} MB. No downloads.' -f $names.Count,($bytes/1MB))
+ $detail.Text=('{0} selected across all apps - approx. {1:N0} MB.' -f $names.Count,($bytes/1MB))
  $install.Enabled=($names.Count -gt 0);$status.Text="Choose the apps you'd like to install or update.";if($names.Count -eq 0){$status.Text='Choose an app to continue.'}
 }
 function Refresh-AppCards([bool]$reset){
@@ -283,7 +321,7 @@ function Refresh-AppCards([bool]$reset){
   $check=$script:AppChecks[$app.name];$check.Enabled=$state.status -notin @('Newer than this bundle','Needs attention')
   if($reset){$check.Checked=$state.select}elseif(-not $check.Enabled){$check.Checked=$false}
  }
- $script:Refreshing=$false;Update-SelectionSummary
+ $script:Refreshing=$false;Sync-CardStyles;Update-SelectionSummary
 }
 $selectAll.Add_Click({foreach($check in $script:AppChecks.Values){if($check.Enabled){$check.Checked=$true}}})
 $selectNone.Add_Click({foreach($check in $script:AppChecks.Values){$check.Checked=$false}})
@@ -295,13 +333,14 @@ if(($PreferenceRoot -or (-not $GuiTestDestination -and -not $ShortcutRoot)) -and
  try{$saved=Get-Content -LiteralPath $savedLocation -Raw | ConvertFrom-Json;$owner=Join-Path $saved.destination 'suite-installation.json';if((Test-Path -LiteralPath $owner) -and (Get-Content -LiteralPath $owner -Raw | ConvertFrom-Json).bundleId -eq $script:Manifest.bundleId){$location.Text=$saved.destination}}catch{}
 }
 $install.Add_Click({if($script:InstalledTarget -and ($PreferenceRoot -or (-not $GuiTestDestination -and -not $ShortcutRoot))){try{$folder=Split-Path $savedLocation;Reject-Links $folder;New-Item -ItemType Directory -Path $folder -Force | Out-Null;Save-Json @{destination=$script:InstalledTarget} $savedLocation}catch{}}})
-Refresh-AppCards $true
+Refresh-AppCards $true;Layout-AppCards
 
 function Snapshot-Form([string]$path){$bitmap=[Drawing.Bitmap]::new($form.Width,$form.Height);$form.DrawToBitmap($bitmap,[Drawing.Rectangle]::new(0,0,$form.Width,$form.Height));$bitmap.Save($path,[Drawing.Imaging.ImageFormat]::Png);$bitmap.Dispose()}
 if($PreviewImage -or $GuiTestDestination){
  if($PreviewWidth -gt 0){$form.Width=$PreviewWidth;$form.Height=580}
  $form.ShowInTaskbar=$false;$form.StartPosition='Manual';$form.Location=[Drawing.Point]::new(-5000,-5000);$form.Show();[Windows.Forms.Application]::DoEvents()
- if($GuiTestDestination){$location.Text=$GuiTestDestination;Refresh-AppCards $true;$selectNone.PerformClick();if($install.Enabled){throw 'Empty selection must disable installation'};$selectAll.PerformClick();foreach($name in $script:AppChecks.Keys){$script:AppChecks[$name].Checked=($requested -contains $name)};$shortcuts.Checked=-not $NoShortcuts;$install.PerformClick();if($script:InstalledTarget -ne $GuiTestDestination -or $progress.Value -ne 100){$form.Close();throw ('GUI install failed: '+$script:UiError)}}
+ if($GuiTestDestination){$location.Text=$GuiTestDestination;Refresh-AppCards $true;$selectNone.PerformClick();if($install.Enabled){throw 'Empty selection must disable installation'};$selectAll.PerformClick();$selectionBefore=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked});$script:CategoryButtons['Video & audio'].PerformClick();if(@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked}).Count -ne $selectionBefore.Count){throw 'Category filter changed selection'};$script:CategoryButtons['All apps'].PerformClick();foreach($name in $script:AppChecks.Keys){$script:AppChecks[$name].Checked=($requested -contains $name)};$shortcuts.Checked=-not $NoShortcuts;$install.PerformClick();if($script:InstalledTarget -ne $GuiTestDestination -or $progress.Value -ne 100){$form.Close();throw ('GUI install failed: '+$script:UiError)}}
+ if($PreviewCategory){$script:CategoryButtons[$PreviewCategory].PerformClick();[Windows.Forms.Application]::DoEvents()};Layout-AppCards
  if($PreviewImage){Snapshot-Form $PreviewImage}
  if($GuiTestImage){Snapshot-Form $GuiTestImage}
  $form.Close();$form.Dispose();if($GuiTestDestination){[pscustomobject]@{status='complete';buttonInvoked=$true;progress=100;destination=$script:InstalledTarget}|ConvertTo-Json};exit 0

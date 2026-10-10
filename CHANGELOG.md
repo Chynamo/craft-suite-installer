@@ -1,5 +1,10 @@
 # Releases
 
+## v1.3.0-preview.1
+
+Original app-card design with actual Craft icons, category browsing, selected-card feedback and responsive two/three-column layout. Install/update engine and app versions unchanged.
+
+
 ## v1.2.1-preview.1
 
 Recognisable software-workflow descriptions, clearer action/status text and versions moved into hover details. Release filenames include the three-part version. Install/update engine and app releases unchanged.

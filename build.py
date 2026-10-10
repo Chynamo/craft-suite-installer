@@ -59,6 +59,7 @@ def main():
         shutil.copyfile(ROOT/'src'/name,data/name)
     shutil.copyfile(ROOT/'src/README.txt',package/'README.txt')
     shutil.copytree(ROOT/'third_party/Notices',data/'Notices')
+    shutil.copytree(ROOT/'assets/AppIcons',data/'AppIcons')
     lock['supportFiles']=[{'path':p.relative_to(data).as_posix().replace('/','\\'),'sha256':digest(p)}
                           for p in sorted(data.rglob('*')) if p.is_file()]
     (data/'bundle.json').write_text(json.dumps(lock,indent=2),encoding='utf-8',newline='\n')

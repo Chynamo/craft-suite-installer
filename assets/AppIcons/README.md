@@ -1,0 +1,1 @@
+Original 32px Windows-associated icons extracted from the unmodified pinned Craft app executables. Used unchanged to identify the bundled apps. Original app and asset copyrights/licences/notices remain in third_party/Notices and original payloads. These are not the installer wrapper logo.
