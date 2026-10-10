@@ -1,5 +1,5 @@
 ﻿[CmdletBinding()]
-param([string]$Destination,[switch]$NoShortcuts,[switch]$VerifyOnly,[string]$PreviewImage,[string]$ShortcutRoot,[string]$GuiTestDestination,[string]$GuiTestImage,[int]$PreviewWidth=0,[string]$Apps,[string]$InspectDestination,[string]$PreferenceRoot,[string]$PreviewCategory)
+param([string]$Destination,[switch]$NoShortcuts,[switch]$VerifyOnly,[string]$PreviewImage,[string]$ShortcutRoot,[string]$GuiTestDestination,[string]$GuiTestImage,[int]$PreviewWidth=0,[string]$Apps,[string]$InspectDestination,[string]$PreferenceRoot,[string]$PreviewCategory,[string]$ActionTestRoot,[string]$PreviewAppMenu)
 $ErrorActionPreference='Stop'
 $script:BundleRoot=$PSScriptRoot
 $script:Manifest=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'bundle.json') -Raw | ConvertFrom-Json
@@ -226,7 +226,7 @@ public class CraftSuiteCard : Panel {
 '@ -ReferencedAssemblies System.Drawing,System.Windows.Forms
 $form=New-Object Windows.Forms.Form
 $form.Text='Craft Suite Setup';$form.StartPosition='CenterScreen';$form.Font=[Drawing.Font]::new('Segoe UI',10);$form.BackColor=[Drawing.ColorTranslator]::FromHtml('#f3f0eb')
-$form.ClientSize=[Drawing.Size]::new(940,[Math]::Min(850,[Windows.Forms.Screen]::PrimaryScreen.WorkingArea.Height-100));$form.MinimumSize=[Drawing.Size]::new(650,580);$form.MaximizeBox=$true
+$form.ClientSize=[Drawing.Size]::new(940,[Math]::Min(850,[Windows.Forms.Screen]::PrimaryScreen.WorkingArea.Height-100));$form.MinimumSize=[Drawing.Size]::new(650,640);$form.MaximizeBox=$true
 function Text-Control($parent,$text,$x,$y,$width,$height,$points=10,$bold=$false,$colour='#121214'){
  $c=New-Object Windows.Forms.Label;$c.UseMnemonic=$false;$c.Text=$text;$c.BackColor=[Drawing.Color]::Transparent;$c.Location=[Drawing.Point]::new($x,$y);$c.Size=[Drawing.Size]::new($width,$height);$style=[Drawing.FontStyle]::Regular;if($bold){$style=[Drawing.FontStyle]::Bold};$c.Font=[Drawing.Font]::new('Segoe UI',$points,$style);$c.ForeColor=[Drawing.ColorTranslator]::FromHtml($colour);$parent.Controls.Add($c);return $c
 }
@@ -252,9 +252,9 @@ $cards=New-Object Windows.Forms.FlowLayoutPanel;$cards.Location=[Drawing.Point]:
 $descriptions=@{FilmCraft='Premiere Pro-style editor';EffectCraft='After Effects-style motion';SoundCraft='Pro Tools-style audio';PhotoCraft='Photoshop-style editor';LightCraft='Lightroom-style library';VectorCraft='Illustrator-style drawing';DesignCraft='InDesign-style layouts';CADCraft='AutoCAD-style drafting';PdfCraft='Acrobat-style PDF tools';WordCraft='Word-style documents';GridCraft='Excel-style spreadsheets';DeckCraft='PowerPoint-style slides'}
 $order=@('FilmCraft','EffectCraft','SoundCraft','PhotoCraft','LightCraft','VectorCraft','DesignCraft','CADCraft','PdfCraft','WordCraft','GridCraft','DeckCraft')
 $script:Groups=@{};foreach($name in $order){$script:Groups[$name]='Documents & CAD'};foreach($name in @('FilmCraft','EffectCraft','SoundCraft')){$script:Groups[$name]='Video & audio'};foreach($name in @('PhotoCraft','LightCraft','VectorCraft','DesignCraft')){$script:Groups[$name]='Photo & design'}
-$script:AppTips=New-Object Windows.Forms.ToolTip;$script:AppChecks=@{};$script:AppLabels=@{};$script:AppStates=@{};$script:CardViews=@{};$script:Refreshing=$false;$script:LayoutBusy=$false
+$script:AppTips=New-Object Windows.Forms.ToolTip;$script:AppChecks=@{};$script:AppLabels=@{};$script:AppStates=@{};$script:AppButtons=@{};$script:AppMenus=@{};$script:AppCopies=@{};$script:CardViews=@{};$script:Refreshing=$false;$script:LayoutBusy=$false
 foreach($name in $order){
- $card=New-Object CraftSuiteCard;$card.Size=[Drawing.Size]::new(286,132);$card.Margin=[Windows.Forms.Padding]::new(6);$card.Selected=$true;$script:CardViews[$name]=$card
+ $card=New-Object CraftSuiteCard;$card.Size=[Drawing.Size]::new(286,168);$card.Margin=[Windows.Forms.Padding]::new(6);$card.Selected=$true;$script:CardViews[$name]=$card
  $icon=New-Object Windows.Forms.PictureBox;$icon.Location=[Drawing.Point]::new(18,19);$icon.Size=[Drawing.Size]::new(32,32);$icon.BackColor=[Drawing.Color]::Transparent
  $iconFile=Join-Path $script:BundleRoot ('AppIcons\'+$name+'.png');if(Test-Path -LiteralPath $iconFile){$icon.Image=[Drawing.Image]::FromFile($iconFile)};$card.Controls.Add($icon)
  $title=Text-Control $card $name 62 15 206 26 12 $true;$title.Anchor='Top,Left,Right'
@@ -262,8 +262,13 @@ foreach($name in $order){
  $group=Text-Control $card $script:Groups[$name] 18 73 248 20 8 $false '#726c66';$group.Anchor='Top,Left,Right'
  $stateLabel=Text-Control $card '' 18 100 148 22 9 $false '#625e59';$stateLabel.Anchor='Top,Left,Right';$script:AppLabels[$name]=$stateLabel
  $check=New-Object Windows.Forms.CheckBox;$check.Text='Include';$check.Checked=$true;$check.Location=[Drawing.Point]::new(192,97);$check.Size=[Drawing.Size]::new(76,26);$check.BackColor=[Drawing.Color]::Transparent;$check.Anchor='Top,Right';$card.Controls.Add($check);$script:AppChecks[$name]=$check
- $check.Add_CheckedChanged({if(-not $script:Refreshing){Update-SelectionSummary}})
+ $check.Add_CheckedChanged({if(-not $script:Refreshing){if(-not $script:Busy){$script:InstalledTarget=$null;$install.Text='Install / update selected'};Update-SelectionSummary}})
  $toggle={if($check.Enabled -and -not $script:Busy){$check.Checked=-not $check.Checked}}.GetNewClosure();$card.Add_Click($toggle);$title.Add_Click($toggle);$icon.Add_Click($toggle)
+ $main=Plain-Button $card 'Install' 150 128 82;$main.Anchor='Top,Right';$main.Tag=$name;$main.ForeColor=[Drawing.ColorTranslator]::FromHtml('#b00e2d');$script:AppButtons[$name]=$main
+ $main.Add_Click({Invoke-CardAction $this.Tag})
+ $more=Plain-Button $card ([char]0x22EF).ToString() 238 128 30;$more.Anchor='Top,Right';$more.Tag=$name;$more.AccessibleName='More options for '+$name;$script:AppMenus[$name]=$more
+ $script:AppTips.SetToolTip($more,'Open, show folder or install another copy')
+ $more.Add_Click({Show-AppMenu $this.Tag $this})
  $cards.Controls.Add($card)
 }
 function Sync-CardStyles {foreach($name in $order){$script:CardViews[$name].Selected=$script:AppChecks[$name].Checked;$script:CardViews[$name].Invalidate()}}
@@ -272,8 +277,8 @@ function Layout-AppCards {
  try{
   $width=[Math]::Max(540,$body.ClientSize.Width-44);$cols=2;if($width -ge 810){$cols=3}
   $cardWidth=[int][Math]::Floor($width/$cols)-12;$visible=0;$cards.SuspendLayout()
-  foreach($name in $order){$card=$script:CardViews[$name];$showCard=($script:Category -eq 'All apps' -or $script:Groups[$name] -eq $script:Category);$card.Visible=$showCard;$card.Size=[Drawing.Size]::new($cardWidth,132);if($showCard){$visible++}}
-  $cards.Width=$width;$content.Width=$width;$height=[int][Math]::Ceiling($visible/$cols)*144;$cards.Height=[Math]::Max(144,$height);$content.Height=$cards.Height+10;$cards.ResumeLayout()
+  foreach($name in $order){$card=$script:CardViews[$name];$showCard=($script:Category -eq 'All apps' -or $script:Groups[$name] -eq $script:Category);$card.Visible=$showCard;$card.Size=[Drawing.Size]::new($cardWidth,168);if($showCard){$visible++}}
+  $cards.Width=$width;$content.Width=$width;$height=[int][Math]::Ceiling($visible/$cols)*180;$cards.Height=[Math]::Max(180,$height);$content.Height=$cards.Height+10;$cards.ResumeLayout()
   foreach($categoryName in $categories){$b=$script:CategoryButtons[$categoryName];$b.BackColor=[Drawing.Color]::White;$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#625e59');if($categoryName -eq $script:Category){$b.BackColor=[Drawing.ColorTranslator]::FromHtml('#fce9ee');$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#b00e2d')}}
  }finally{$script:LayoutBusy=$false}
 }
@@ -295,7 +300,7 @@ $script:ProgressCallback={param($message,$percent)$status.Text=$message;$progres
 $install.Add_Click({
  if($script:InstalledTarget){Start-Process -FilePath 'explorer.exe' -ArgumentList ('"'+(Join-Path $script:InstalledTarget 'Launchers')+'"');$form.Close();return}
  $script:Busy=$true;$install.Enabled=$false;$cards.Enabled=$false;$selectAll.Enabled=$false;$selectNone.Enabled=$false;$toolbar.Enabled=$false;$location.Enabled=$false;$browse.Enabled=$false;$shortcuts.Enabled=$false;$detail.Text='Please keep this window open while your apps are installed.'
- try{$names=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked});$result=Install-Suite $location.Text $shortcuts.Checked $names;$script:InstalledTarget=$result.destination;$install.Text='Open your apps';$status.Text="You're ready to create.";$noun='apps';if($result.selected.Count -eq 1){$noun='app'};$detail.Text=($result.selected.Count.ToString()+' '+$noun+' ready. Other apps were kept.');Refresh-AppCards $false}
+ try{$names=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked});$result=Install-Suite $location.Text $shortcuts.Checked $names;$script:InstalledTarget=$result.destination;Remember-Copy $result.destination;$install.Text='Open your apps';$status.Text="You're ready to create.";$noun='apps';if($result.selected.Count -eq 1){$noun='app'};$detail.Text=($result.selected.Count.ToString()+' '+$noun+' ready. Other apps were kept.');Refresh-AppCards $false}
  catch{$script:UiError=$_.Exception.Message;$status.Text='Setup could not finish.';$detail.Text='Your existing files have been preserved.';if(-not $GuiTestDestination){[void][Windows.Forms.MessageBox]::Show($form,$script:UiError,'Setup needs your attention','OK','Information')};$location.Enabled=$true;$browse.Enabled=$true;$shortcuts.Enabled=$true}
  finally{$script:Busy=$false;$install.Enabled=$true;$cards.Enabled=$true;$selectAll.Enabled=$true;$selectNone.Enabled=$true;$toolbar.Enabled=$true}
 })
@@ -307,17 +312,115 @@ function Update-SelectionSummary {
  $detail.Text=('{0} selected across all apps - approx. {1:N0} MB.' -f $names.Count,($bytes/1MB))
  $install.Enabled=($names.Count -gt 0);$status.Text="Choose the apps you'd like to install or update.";if($names.Count -eq 0){$status.Text='Choose an app to continue.'}
 }
+
+$savedLocation=Join-Path $env:LOCALAPPDATA 'CraftSuiteSetup\last-installation.json';if($PreferenceRoot){$savedLocation=Join-Path $PreferenceRoot 'last-installation.json'}
+$script:RememberEnabled=($PreferenceRoot -or (-not $GuiTestDestination -and -not $ShortcutRoot -and -not $PreviewImage))
+$script:KnownDestinations=@();$script:LastUsed=@{}
+if($script:RememberEnabled -and (Test-Path -LiteralPath $savedLocation)){
+ try{Reject-Links $savedLocation;$saved=Get-Content -LiteralPath $savedLocation -Raw | ConvertFrom-Json
+  $script:KnownDestinations=@(@($saved.destination)+@($saved.destinations) | Where-Object {$_} | Select-Object -Unique)
+  foreach($entry in $saved.lastUsed){$script:LastUsed[$entry.name]=$entry.destination}
+  if($saved.destination -and (Test-Path -LiteralPath (Join-Path $saved.destination 'suite-installation.json'))){$location.Text=$saved.destination}
+ }catch{}
+}
+function Remember-Copy([string]$target,[string]$name=''){
+ $script:KnownDestinations=@($script:KnownDestinations+@($target) | Select-Object -Unique)
+ if($name){$script:LastUsed[$name]=$target}
+ if($script:RememberEnabled){
+  $folder=Split-Path $savedLocation;Reject-Links $folder;New-Item -ItemType Directory -Path $folder -Force | Out-Null
+  $used=@();foreach($key in $script:LastUsed.Keys){$used+=@{name=$key;destination=$script:LastUsed[$key]}}
+  Save-Json @{destination=$location.Text;destinations=$script:KnownDestinations;lastUsed=$used} $savedLocation
+ }
+}
+function Resolve-AppLaunch($app,[string]$target){
+ $state=App-State $app $target
+ if(-not $state.installed -or $state.status -eq 'Needs attention'){throw 'This copy is missing or needs attention. Choose a valid installation folder.'}
+ $root=Inside (Join-Path $target ('Apps\'+$app.name+'\'+$state.installed)) $target;Reject-Links $root
+ $exe=Inside (Join-Path $root $app.gui) $root;Reject-Links $exe
+ if(-not(Test-Path -LiteralPath $exe -PathType Leaf)){throw 'The app executable is missing. Install another copy or repair this installation.'}
+ # Compare current bundled executables to pinned hashes. Older copies must have an owned local launcher.
+ if($state.installed -eq $app.version){$file=@($app.files | Where-Object {$_.path -eq $app.gui});if($file.Count -ne 1 -or (File-Hash $exe) -ne $file[0].sha256){throw 'The app executable differs from the release. It was preserved; choose another copy.'}}
+ else{$link=Join-Path $target ('Launchers\'+$app.name+'.lnk');Reject-Links $link;if(-not(Test-Path -LiteralPath $link)){throw 'The installed launcher is missing.'};$shell=New-Object -ComObject WScript.Shell;if($shell.CreateShortcut($link).TargetPath -ne $exe){throw 'The installed launcher does not match this copy.'}}
+ $argsForApp='';if($app.name -eq 'LightCraft'){$library=Join-Path $target 'Libraries\LightCraft';Reject-Links $library;$argsForApp='--library "'+$library+'"'}
+ return [pscustomobject]@{exe=$exe;arguments=$argsForApp;folder=$root;destination=$target;state=$state}
+}
+function Get-AppCopies($app){
+ $result=@();$targets=@(@($location.Text)+$script:KnownDestinations | Where-Object {$_} | Select-Object -Unique)
+ foreach($target in $targets){try{$copy=Resolve-AppLaunch $app $target;$result+=$copy}catch{}}
+ return @($result | Sort-Object @{Expression={if($_.destination -eq $script:LastUsed[$app.name]){0}elseif($_.destination -eq $location.Text){1}else{2}}})
+}
+function Action-Error($errorRecord){
+ $script:UiError=$errorRecord.Exception.Message
+ if($ActionTestRoot){throw $errorRecord}
+ [void][Windows.Forms.MessageBox]::Show($form,$script:UiError,'App needs your attention','OK','Information')
+}
+function Open-AppCopy([string]$name,[string]$target){
+ try{
+  $app=@($script:Manifest.apps | Where-Object {$_.name -eq $name})[0];$launch=Resolve-AppLaunch $app $target
+  $start=@{FilePath=$launch.exe;WorkingDirectory=$launch.folder;PassThru=$true};if($launch.arguments){$start.ArgumentList=$launch.arguments}
+  if($ActionTestRoot){$start.WindowStyle='Hidden'}
+  $process=Start-Process @start;Remember-Copy $target $name
+  if($ActionTestRoot){$script:TestLaunched=@{exe=$launch.exe;destination=$target;id=$process.Id};Start-Sleep -Milliseconds 600;if(-not $process.HasExited){$process.CloseMainWindow() | Out-Null;if(-not $process.WaitForExit(1500)){$process.Kill()}}}
+  $status.Text=$name+' opened.';Refresh-AppCards $false
+ }catch{Action-Error $_}
+}
+function Run-AppInstall([string]$name,[string]$target,[bool]$anotherCopy=$false){
+ if($script:Busy){return}
+ $script:Busy=$true;$toolbar.Enabled=$false;$cards.Enabled=$false;$choices.Enabled=$false;$install.Enabled=$false
+ try{
+  $result=Install-Suite $target ($(if($anotherCopy){$false}else{$shortcuts.Checked})) @($name)
+  Remember-Copy $result.destination $name;$script:InstalledTarget=$null;$install.Text='Install / update selected'
+  $status.Text=$name+' is ready.';$detail.Text='Open it from its card. Your other apps were kept.'
+ }catch{Action-Error $_}
+ finally{$script:Busy=$false;$toolbar.Enabled=$true;$cards.Enabled=$true;$choices.Enabled=$true;Refresh-AppCards $true}
+}
+function Install-AnotherCopy([string]$name){
+ try{
+  $target=$script:TestCopyDestination
+  if(-not $target){
+   $dialog=New-Object Windows.Forms.FolderBrowserDialog;$dialog.Description='Choose a parent folder. A new, separate Craft Suite Copy folder will be created.';$dialog.ShowNewFolderButton=$true
+   try{if($dialog.ShowDialog($form) -ne 'OK'){return};$parent=$dialog.SelectedPath}finally{$dialog.Dispose()}
+   $number=1;$target=Join-Path $parent 'Craft Suite Copy';while(Test-Path -LiteralPath $target){$number++;$target=Join-Path $parent ('Craft Suite Copy '+$number)}
+  }
+  $normal=[IO.Path]::GetFullPath($target).TrimEnd('\')
+  if(@($script:KnownDestinations+@($location.Text) | Where-Object {[IO.Path]::GetFullPath($_).TrimEnd('\') -eq $normal}).Count){throw 'Choose a different folder for another copy.'}
+  Run-AppInstall $name $target $true
+ }catch{Action-Error $_}
+}
+function Invoke-CardAction([string]$name){
+ $copies=@($script:AppCopies[$name]);if($copies.Count){$copy=$copies[0];if($copy.state.status -eq 'Update available'){Run-AppInstall $name $copy.destination}else{Open-AppCopy $name $copy.destination}}
+ else{Run-AppInstall $name $location.Text}
+}
+function Build-AppMenu([string]$name){
+ $menu=New-Object Windows.Forms.ContextMenuStrip;$copies=@($script:AppCopies[$name])
+ if($copies.Count){
+  $copy=$copies[0];$target=$copy.destination
+  $item=$menu.Items.Add('Open installed version');$item.Add_Click({Open-AppCopy $name $target}.GetNewClosure())
+  $item=$menu.Items.Add('Show folder');$item.Add_Click({try{$launch=Resolve-AppLaunch (@($script:Manifest.apps | Where-Object {$_.name -eq $name})[0]) $target;Start-Process explorer.exe -ArgumentList ('"'+$launch.folder+'"')}catch{Action-Error $_}}.GetNewClosure())
+ }
+ $item=$menu.Items.Add('Install another copy...');$item.Add_Click({Install-AnotherCopy $name}.GetNewClosure())
+ if($copies.Count -gt 1){
+  $choose=New-Object Windows.Forms.ToolStripMenuItem('Open another copy')
+  foreach($copy in $copies){$target=$copy.destination;$item=$choose.DropDownItems.Add($target);$item.Checked=($target -eq $copies[0].destination);$item.ToolTipText='Installed version: '+$copy.state.installed;$item.Add_Click({Open-AppCopy $name $target}.GetNewClosure())}
+  [void]$menu.Items.Add($choose)
+ }
+ return $menu
+}
+function Show-AppMenu([string]$name,$button){if($script:Busy){return};$menu=Build-AppMenu $name;$menu.Add_Closed({$this.Dispose()});$menu.Show($button,[Drawing.Point]::new(0,$button.Height))}
+
 function Refresh-AppCards([bool]$reset){
  $script:Refreshing=$true
  foreach($app in $script:Manifest.apps){
   $state=App-State $app $location.Text;$script:AppStates[$app.name]=$state
+  $copies=@(Get-AppCopies $app);$script:AppCopies[$app.name]=$copies;$main=$script:AppButtons[$app.name];$main.Text='Install';$main.Enabled=$state.status -notin @('Needs attention','Newer than this bundle')
+  if($copies.Count){$main.Enabled=$true;$main.Text='Open';if($copies[0].state.status -eq 'Update available'){$main.Text='Update'};$script:AppTips.SetToolTip($main,$copies[0].destination)}else{$script:AppTips.SetToolTip($main,'Install into '+$location.Text)}
   $friendly=@{'Not installed'='Ready to install';'Up to date'='Already installed';'Update available'='Update available';'Newer than this bundle'='Newer version installed';'Needs attention'='Check installation folder'}
-  $label=$script:AppLabels[$app.name];$label.Text=$friendly[$state.status]
+  $label=$script:AppLabels[$app.name];$label.Text=$friendly[$state.status];if($copies.Count){$label.Text=$friendly[$copies[0].state.status]}
   $tip='Included version: '+$app.version;if($state.installed){$tip='Installed version: '+$state.installed+"`n"+$tip};if($state.detail){$tip=$state.detail+"`n"+$tip}
   $script:AppTips.SetToolTip($label,$tip);$script:AppTips.SetToolTip($script:AppChecks[$app.name],$tip)
   $label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#625e59')
-  if($state.status -eq 'Update available'){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#95620b')}
-  if($state.status -eq 'Up to date'){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#276545')}
+  if(($copies.Count -and $copies[0].state.status -eq 'Update available') -or (-not $copies.Count -and $state.status -eq 'Update available')){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#95620b')}
+  if(($copies.Count -and $copies[0].state.status -eq 'Up to date') -or (-not $copies.Count -and $state.status -eq 'Up to date')){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#276545')}
   $check=$script:AppChecks[$app.name];$check.Enabled=$state.status -notin @('Newer than this bundle','Needs attention')
   if($reset){$check.Checked=$state.select}elseif(-not $check.Enabled){$check.Checked=$false}
  }
@@ -328,20 +431,58 @@ $selectNone.Add_Click({foreach($check in $script:AppChecks.Values){$check.Checke
 $locationTimer=New-Object Windows.Forms.Timer;$locationTimer.Interval=350
 $location.Add_TextChanged({$locationTimer.Stop();if(-not $script:Busy){$locationTimer.Start()}})
 $locationTimer.Add_Tick({$locationTimer.Stop();if(-not $script:Busy){Refresh-AppCards $true}})
-$savedLocation=Join-Path $env:LOCALAPPDATA 'CraftSuiteSetup\last-installation.json';if($PreferenceRoot){$savedLocation=Join-Path $PreferenceRoot 'last-installation.json'}
-if(($PreferenceRoot -or (-not $GuiTestDestination -and -not $ShortcutRoot)) -and (Test-Path -LiteralPath $savedLocation)){
- try{$saved=Get-Content -LiteralPath $savedLocation -Raw | ConvertFrom-Json;$owner=Join-Path $saved.destination 'suite-installation.json';if((Test-Path -LiteralPath $owner) -and (Get-Content -LiteralPath $owner -Raw | ConvertFrom-Json).bundleId -eq $script:Manifest.bundleId){$location.Text=$saved.destination}}catch{}
-}
-$install.Add_Click({if($script:InstalledTarget -and ($PreferenceRoot -or (-not $GuiTestDestination -and -not $ShortcutRoot))){try{$folder=Split-Path $savedLocation;Reject-Links $folder;New-Item -ItemType Directory -Path $folder -Force | Out-Null;Save-Json @{destination=$script:InstalledTarget} $savedLocation}catch{}}})
 Refresh-AppCards $true;Layout-AppCards
 
 function Snapshot-Form([string]$path){$bitmap=[Drawing.Bitmap]::new($form.Width,$form.Height);$form.DrawToBitmap($bitmap,[Drawing.Rectangle]::new(0,0,$form.Width,$form.Height));$bitmap.Save($path,[Drawing.Imaging.ImageFormat]::Png);$bitmap.Dispose()}
-if($PreviewImage -or $GuiTestDestination){
- if($PreviewWidth -gt 0){$form.Width=$PreviewWidth;$form.Height=580}
+if($PreviewImage -or $GuiTestDestination -or $ActionTestRoot){
+ if($PreviewWidth -gt 0){$form.Width=$PreviewWidth;$form.Height=640}
  $form.ShowInTaskbar=$false;$form.StartPosition='Manual';$form.Location=[Drawing.Point]::new(-5000,-5000);$form.Show();[Windows.Forms.Application]::DoEvents()
  if($GuiTestDestination){$location.Text=$GuiTestDestination;Refresh-AppCards $true;$selectNone.PerformClick();if($install.Enabled){throw 'Empty selection must disable installation'};$selectAll.PerformClick();$selectionBefore=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked});$script:CategoryButtons['Video & audio'].PerformClick();if(@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked}).Count -ne $selectionBefore.Count){throw 'Category filter changed selection'};$script:CategoryButtons['All apps'].PerformClick();foreach($name in $script:AppChecks.Keys){$script:AppChecks[$name].Checked=($requested -contains $name)};$shortcuts.Checked=-not $NoShortcuts;$install.PerformClick();if($script:InstalledTarget -ne $GuiTestDestination -or $progress.Value -ne 100){$form.Close();throw ('GUI install failed: '+$script:UiError)}}
+if($ActionTestRoot){
+ $script:TestLaunched=$null
+ $grid=$script:AppButtons['GridCraft'];$location.Text=Join-Path $ActionTestRoot 'First copy';Refresh-AppCards $true
+ if($grid.Text -ne 'Install'){throw 'Fresh card must offer Install'}
+ $shortcuts.Checked=$false;$grid.PerformClick()
+ if($grid.Text -ne 'Open'){throw 'Installed card must offer Open'}
+ $first=$location.Text;$firstExe=(Resolve-AppLaunch (@($script:Manifest.apps | Where-Object name -eq 'GridCraft')[0]) $first).exe
+ $firstHash=File-Hash $firstExe
+ $grid.PerformClick();if($script:TestLaunched.destination -ne $first){throw 'Open did not launch first copy'}
+ $script:TestCopyDestination=Join-Path $ActionTestRoot 'Second copy'
+ $menu=Build-AppMenu 'GridCraft';@($menu.Items | Where-Object Text -eq 'Install another copy...')[0].PerformClick();$menu.Dispose()
+ $copies=@($script:AppCopies['GridCraft']);if($copies.Count -ne 2 -or $copies[0].destination -ne $script:TestCopyDestination){throw 'Separate copy was not remembered'}
+ if((File-Hash $firstExe) -ne $firstHash){throw 'Original copy changed'}
+ $menu=Build-AppMenu 'GridCraft';$choose=@($menu.Items | Where-Object Text -eq 'Open another copy')[0];@($choose.DropDownItems | Where-Object Text -eq $first)[0].PerformClick();$menu.Dispose()
+ if($script:LastUsed['GridCraft'] -ne $first){throw 'Last used copy not updated'}
+ $persist=Get-Content -LiteralPath $savedLocation -Raw | ConvertFrom-Json
+ if(@($persist.destinations).Count -ne 2 -or @($persist.lastUsed | Where-Object name -eq 'GridCraft')[0].destination -ne $first){throw 'Copy preferences not saved'}
+ # Simulated older release: keep the same test app bytes, change only the owned version metadata/folder/launcher.
+ $second=$script:TestCopyDestination;$app=@($script:Manifest.apps | Where-Object name -eq 'GridCraft')[0];$oldVersion='0.2.0';$oldRoot=Join-Path $second ('Apps\GridCraft\'+$oldVersion)
+ Move-Item -LiteralPath (Join-Path $second ('Apps\GridCraft\'+$app.version)) -Destination $oldRoot
+ $receiptFile=Join-Path $second 'suite-installation.json';$receipt=Get-Content -LiteralPath $receiptFile -Raw | ConvertFrom-Json
+ @($receipt.activeApps | Where-Object name -eq 'GridCraft')[0].version=$oldVersion;Save-Json $receipt $receiptFile
+ $oldExe=Join-Path $oldRoot $app.gui;$shell=New-Object -ComObject WScript.Shell;$link=$shell.CreateShortcut((Join-Path $second 'Launchers\GridCraft.lnk'));$link.TargetPath=$oldExe;$link.WorkingDirectory=$oldRoot;$link.Save()
+ $script:LastUsed['GridCraft']=$second;Refresh-AppCards $false;if($grid.Text -ne 'Update'){throw 'Old copy must offer Update'}
+ $menu=Build-AppMenu 'GridCraft';@($menu.Items | Where-Object Text -eq 'Open installed version')[0].PerformClick();$menu.Dispose()
+ if($script:TestLaunched.exe -ne $oldExe){throw 'Old version menu did not open old app'}
+ $grid.PerformClick();if($grid.Text -ne 'Open' -or -not(Test-Path -LiteralPath $oldExe)){throw 'Update failed or removed old copy'}
+ if((File-Hash $firstExe) -ne $firstHash){throw 'Update changed unrelated copy'}
+ # Check a stale remembered copy does not leave a dead Open button.
+ $secondLaunch=Resolve-AppLaunch $app $second;Move-Item -LiteralPath $secondLaunch.exe -Destination ($secondLaunch.exe+'.held');Refresh-AppCards $false
+ if(@($script:AppCopies['GridCraft']).Count -ne 1 -or $script:AppCopies['GridCraft'][0].destination -ne $first){throw 'Missing app did not fall back to intact copy'}
+ Move-Item -LiteralPath ($secondLaunch.exe+'.held') -Destination $secondLaunch.exe;Refresh-AppCards $false
+ # Existing bulk controls and category filtering remain functional.
+ $script:InstalledTarget=$null;$selectNone.PerformClick();if($install.Enabled){throw 'Empty bulk selection must disable install'}
+ $script:AppChecks['GridCraft'].Checked=$true;$script:CategoryButtons['Video & audio'].PerformClick();if(-not $script:AppChecks['GridCraft'].Checked){throw 'Category changed bulk selection'}
+ $script:CategoryButtons['Documents & CAD'].PerformClick();Layout-AppCards
+ if($PreviewAppMenu){$menu=Build-AppMenu $PreviewAppMenu;$menu.Show($script:AppMenus[$PreviewAppMenu],[Drawing.Point]::new(0,30));[Windows.Forms.Application]::DoEvents();$bitmap=[Drawing.Bitmap]::new($menu.Width,$menu.Height);$menu.DrawToBitmap($bitmap,[Drawing.Rectangle]::new(0,0,$menu.Width,$menu.Height));$bitmap.Save(($PreviewImage+'.menu.png'));$bitmap.Dispose();$menu.Dispose()}
+ if($GuiTestImage){Snapshot-Form $GuiTestImage}
+ $report=@{status='pass';freshInstall=$true;openActualExecutable=$true;separateCopyMenu=$true;lastUsedChoice=$true;preferencesSaved=$true;simulatedUpdate=$true;olderCopyPreserved=$true;missingCopyFallback=$true;bulkSelection=$true}
+ Save-Json $report (Join-Path $ActionTestRoot 'actions-checks.json')
+}
+
  if($PreviewCategory){$script:CategoryButtons[$PreviewCategory].PerformClick();[Windows.Forms.Application]::DoEvents()};Layout-AppCards
  if($PreviewImage){Snapshot-Form $PreviewImage}
+ if($PreviewAppMenu){$menu=Build-AppMenu $PreviewAppMenu;$menu.Show($script:AppMenus[$PreviewAppMenu],[Drawing.Point]::new(0,30));[Windows.Forms.Application]::DoEvents();$bitmap=[Drawing.Bitmap]::new($menu.Width,$menu.Height);$menu.DrawToBitmap($bitmap,[Drawing.Rectangle]::new(0,0,$menu.Width,$menu.Height));$bitmap.Save(($PreviewImage+'.menu.png'));$bitmap.Dispose();$menu.Dispose()}
  if($GuiTestImage){Snapshot-Form $GuiTestImage}
  $form.Close();$form.Dispose();if($GuiTestDestination){[pscustomobject]@{status='complete';buttonInvoked=$true;progress=100;destination=$script:InstalledTarget}|ConvertTo-Json};exit 0
 }

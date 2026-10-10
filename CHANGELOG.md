@@ -1,5 +1,10 @@
 # Releases
 
+## v1.4.0-preview.1
+
+App cards now offer Install, Open or Update. A discreet menu offers another independent copy, folder access and remembered copy selection. Existing bulk selection, branded colours, original payloads and side-by-side update preservation remain.
+
+
 ## v1.3.1-preview.1
 
 Palette-only refinement: charcoal, warm cream and red from the maintainer's established branding. Layout, original icons, status colours and installation behaviour unchanged.
