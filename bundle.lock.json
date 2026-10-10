@@ -1,0 +1,751 @@
+{
+  "bundleId": "craft-community-offline-suite",
+  "bundleVersion": "2026-10-10-graphical",
+  "platform": "windows-x64",
+  "officialBundle": false,
+  "networkRequired": false,
+  "studioIncluded": false,
+  "installedBytes": 1398550090,
+  "largestAppBytes": 169255787,
+  "apps": [
+    {
+      "name": "CADCraft",
+      "repo": "cadcraft",
+      "version": "v0.3.0",
+      "purpose": "CAD drawing and drafting",
+      "releaseUrl": "https://github.com/storytold/cadcraft/releases/tag/v0.3.0",
+      "payload": "Payloads\\cadcraft\\cadcraft-0.3.0-windows-x64-portable.zip",
+      "payloadBytes": 18699269,
+      "sha256": "adfeb84955423f26d58b5ae0b36bb865d2d97f03b0c847bd8d82259d59dbfd69",
+      "gui": "cadcraft-0.3.0-windows-x64-portable\\cadcraft.exe",
+      "cli": "cadcraft-0.3.0-windows-x64-portable\\cadcraft-cli.exe",
+      "installedBytes": 47693623,
+      "files": [
+        {
+          "path": "cadcraft-0.3.0-windows-x64-portable\\cadcraft-cli.exe",
+          "sha256": "153393dc6ae252272ce0c1339ff4c969e4c4650fe96c37fa9dbeec8654ff8566",
+          "bytes": 15501840
+        },
+        {
+          "path": "cadcraft-0.3.0-windows-x64-portable\\cadcraft.exe",
+          "sha256": "01c65858d9485e043081154da9f2744bb5b0eec3cf726887915c0ccbc1b1b08e",
+          "bytes": 32162320
+        },
+        {
+          "path": "cadcraft-0.3.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "cadcraft-0.3.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "84d49e47a7e1b163ce15df4d70e0300ba0af0babbef8c4dc16ffdb1034d603df",
+          "bytes": 1121
+        },
+        {
+          "path": "cadcraft-0.3.0-windows-x64-portable\\README.md",
+          "sha256": "a64caf532c3938049adca9092bca6769324d38e401af7fe0004057cd0ee554b8",
+          "bytes": 17991
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/cadcraft/releases/download/v0.3.0/cadcraft-0.3.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "DeckCraft",
+      "repo": "deckcraft",
+      "version": "v0.3.0",
+      "purpose": "Presentations",
+      "releaseUrl": "https://github.com/storytold/deckcraft/releases/tag/v0.3.0",
+      "payload": "Payloads\\deckcraft\\deckcraft-0.3.0-windows-x64-portable.zip",
+      "payloadBytes": 73464997,
+      "sha256": "5e45d932e713a9b39ddbec33032ca7aabdbaf602c275cc46cc04cb8a18d4c535",
+      "gui": "deckcraft-0.3.0-windows-x64-portable\\deckcraft.exe",
+      "cli": "deckcraft-0.3.0-windows-x64-portable\\deckcraft-cli.exe",
+      "installedBytes": 149034073,
+      "files": [
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\deckcraft-cli.exe",
+          "sha256": "59351b3fd3941d26c2c156468e25d884b345a5fa272892899dd276953c4d3c75",
+          "bytes": 65441296
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\deckcraft.exe",
+          "sha256": "888363c4770e0c3a446f4eefc6aa3395bdfed3b538077c4ba081744e45ce91db",
+          "bytes": 83472400
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "4ab882572e5d7c0b3e1dcf6712798f0d3830da90cb74d531f5e21156d1176e81",
+          "bytes": 1122
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-caladea.txt",
+          "sha256": "550662cfab859a4df4c739b8d2c589fa781bdb295fa0d1cc4cb07d600e366380",
+          "bytes": 4486
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-carlito.txt",
+          "sha256": "0fb802dc9a710a8d1878a0fdc7fc562f9da2e7576d629e3a1ed735addefb7e6c",
+          "bytes": 4518
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-inter.txt",
+          "sha256": "b3195af0fb14368d1b3b10fb9d3fe503b7163ea083859d2ee553bc74da07c320",
+          "bytes": 4472
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-lato.txt",
+          "sha256": "14b8609fd8281cb961730de7d3b2964dcc6e0e395e759b1422e52e39a0fdc6b2",
+          "bytes": 4500
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-liberation-mono.txt",
+          "sha256": "1cfc9eab5a504c8d3496a2dd8f3efc7c5367e0910a038d9e678659473953c76a",
+          "bytes": 4516
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-liberation-sans.txt",
+          "sha256": "1cfc9eab5a504c8d3496a2dd8f3efc7c5367e0910a038d9e678659473953c76a",
+          "bytes": 4516
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-liberation-serif.txt",
+          "sha256": "1cfc9eab5a504c8d3496a2dd8f3efc7c5367e0910a038d9e678659473953c76a",
+          "bytes": 4516
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-merriweather.txt",
+          "sha256": "792157d2eb74bfdce18e545570948f4e3018106e1e339ddcb565d47e313d2521",
+          "bytes": 4530
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-montserrat.txt",
+          "sha256": "41cbef8d8a37b9e58a3c613a8958014bfc58801569c40211dfb251f600c6d718",
+          "bytes": 4492
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-noto-sans-arabic.txt",
+          "sha256": "3b7e321615e412e5fbb9eab5bf1c0a4cb84c732d3d5a9e9e3822972d5fb70b97",
+          "bytes": 4475
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-noto-sans-cjk-sc.txt",
+          "sha256": "88f117575237307bdd86a17ef15e21790fc9a662fe4dfb103ca1ca077f0d9982",
+          "bytes": 4393
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-nunito-sans.txt",
+          "sha256": "f22dcf7224df30722ce6c3257c33a9ea965d8a523cac976e9c5ac02eb59920a1",
+          "bytes": 4486
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-open-sans.txt",
+          "sha256": "f64b1e99565d9511bf78e1f9c525c1f33cb7a8375e5f67a406866d37b99d8781",
+          "bytes": 4481
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-playfair-display.txt",
+          "sha256": "ffdcfcc83d9335ec5c0bcf7ba2b2cbfbaade71571949fd8e529f914d7045dd4c",
+          "bytes": 4542
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-poppins.txt",
+          "sha256": "8975bebde6506cc6d42e8f81b0c7c5a7a31e8d24128681a96c216340669ea9c6",
+          "bytes": 4478
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-roboto.txt",
+          "sha256": "7d96701533d059cfd4191a85ecfd159e262527abd737eae6d9fb533844c70410",
+          "bytes": 4487
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-source-sans-3.txt",
+          "sha256": "89ad2c4f66dd29127527493e729c31e731f111cf10faf5774c3db9275ed0c22c",
+          "bytes": 4579
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\OFL-source-serif-4.txt",
+          "sha256": "1c1dd2a2d4dfcccf9c008c58f054b6563eb235cf21f445fc01559c68d4c62337",
+          "bytes": 4585
+        },
+        {
+          "path": "deckcraft-0.3.0-windows-x64-portable\\README.md",
+          "sha256": "5a218a609e8ff7726f92c4d62c1bc33db913d42a126e99ebef243e598a5ca422",
+          "bytes": 14358
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/deckcraft/releases/download/v0.3.0/deckcraft-0.3.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "DesignCraft",
+      "repo": "designcraft",
+      "version": "v0.4.0",
+      "purpose": "Page layouts and publishing",
+      "releaseUrl": "https://github.com/storytold/designcraft/releases/tag/v0.4.0",
+      "payload": "Payloads\\designcraft\\designcraft-0.4.0-windows-x64-portable.zip",
+      "payloadBytes": 68522893,
+      "sha256": "dfc76a2a5428f02207a05e985319e36eba8f0e3c9a1eec5f80050c15047097b3",
+      "gui": "designcraft-0.4.0-windows-x64-portable\\designcraft.exe",
+      "cli": "designcraft-0.4.0-windows-x64-portable\\designcraft-cli.exe",
+      "installedBytes": 143850948,
+      "files": [
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\designcraft-cli.exe",
+          "sha256": "6e513375474b7d656fbbc7493ea3f4371fcfa7b4e5389ea4ece751f263b06b9b",
+          "bytes": 61286424
+        },
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\designcraft.exe",
+          "sha256": "6b8ba60a1304b43143f7ffbff82c161a0a98ee45a06bd64dea090fd871dfaf27",
+          "bytes": 82522648
+        },
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "817090fc6596732c35b48ad77cb36ca6ee9ab93a41a37e52cf6f0da65c4b2cb9",
+          "bytes": 1124
+        },
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "designcraft-0.4.0-windows-x64-portable\\README.md",
+          "sha256": "c6547432dd29da950fec9eaffc6443c2e130788fb2367a79ec31f0509fb006c4",
+          "bytes": 16907
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/designcraft/releases/download/v0.4.0/designcraft-0.4.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "EffectCraft",
+      "repo": "effectcraft",
+      "version": "v0.6.0",
+      "purpose": "Motion graphics and compositing",
+      "releaseUrl": "https://github.com/storytold/effectcraft/releases/tag/v0.6.0",
+      "payload": "Payloads\\effectcraft\\effectcraft-0.6.0-windows-x64-portable.zip",
+      "payloadBytes": 62693940,
+      "sha256": "07cfa4da3ab0e19908967326cd3530f28ce7a06ff0517b42f49b553113f9034a",
+      "gui": "effectcraft-0.6.0-windows-x64-portable\\effectcraft.exe",
+      "cli": "effectcraft-0.6.0-windows-x64-portable\\effectcraft-cli.exe",
+      "installedBytes": 165291150,
+      "files": [
+        {
+          "path": "effectcraft-0.6.0-windows-x64-portable\\effectcraft-cli.exe",
+          "sha256": "7dcd5795de7af0d6baae725fe716f2e399e9dacc1c1ae52d5c98d879d87294bd",
+          "bytes": 81739288
+        },
+        {
+          "path": "effectcraft-0.6.0-windows-x64-portable\\effectcraft.exe",
+          "sha256": "0d9af2629ec1835eed867f247190a1ad95bf748cd5c42a6a0cffaa3b5e7d0f52",
+          "bytes": 83518488
+        },
+        {
+          "path": "effectcraft-0.6.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "effectcraft-0.6.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "2da01426cc958cdac55d837acf12ea2966c5b022897be58fca2f09bcc749a563",
+          "bytes": 1124
+        },
+        {
+          "path": "effectcraft-0.6.0-windows-x64-portable\\README.md",
+          "sha256": "ce283222045c30b8366ffd07d538fdb8aa38890186f1de110ecebc466994b0cf",
+          "bytes": 21899
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/effectcraft/releases/download/v0.6.0/effectcraft-0.6.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "FilmCraft",
+      "repo": "filmcraft",
+      "version": "v0.4.0",
+      "purpose": "Video editing",
+      "releaseUrl": "https://github.com/storytold/filmcraft/releases/tag/v0.4.0",
+      "payload": "Payloads\\filmcraft\\filmcraft-0.4.0-windows-x64-portable.zip",
+      "payloadBytes": 64054389,
+      "sha256": "f62a9a8d6acae0f136ef5810d96bffa629f8e4b85e0a4f8bd2b36d43164e2316",
+      "gui": "filmcraft-0.4.0-windows-x64-portable\\filmcraft.exe",
+      "cli": "filmcraft-0.4.0-windows-x64-portable\\filmcraft-cli.exe",
+      "installedBytes": 136244328,
+      "files": [
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\filmcraft-cli.exe",
+          "sha256": "23c011d29bfaeb65b059bcb5b64df8517172d9664fb8d8129c7831463acf085d",
+          "bytes": 58614800
+        },
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\filmcraft.exe",
+          "sha256": "b1881a114d86ebab1ed41863e7a1797c65f3983f22c3230a2e2105724b9132ed",
+          "bytes": 77571600
+        },
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "5fda8da5bfefc9ccc258624027b65f1335a272f7e1262a222e41509e6928b9cc",
+          "bytes": 1122
+        },
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "filmcraft-0.4.0-windows-x64-portable\\README.md",
+          "sha256": "a11933044e627deb651473838915a631e1ecbd83ec614c57f29218c74b29a6da",
+          "bytes": 32961
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/filmcraft/releases/download/v0.4.0/filmcraft-0.4.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "GridCraft",
+      "repo": "gridcraft",
+      "version": "v0.3.0",
+      "purpose": "Spreadsheets",
+      "releaseUrl": "https://github.com/storytold/gridcraft/releases/tag/v0.3.0",
+      "payload": "Payloads\\gridcraft\\gridcraft-0.3.0-windows-x64-portable.zip",
+      "payloadBytes": 15110712,
+      "sha256": "30c667f5a1275e746bbce647b40574113752f31db946fa4018c9b5ecf6164087",
+      "gui": "gridcraft-0.3.0-windows-x64-portable\\gridcraft.exe",
+      "cli": "gridcraft-0.3.0-windows-x64-portable\\gridcraft-cli.exe",
+      "installedBytes": 37857315,
+      "files": [
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\gridcraft-cli.exe",
+          "sha256": "5ce48758b7dcb73368b9a01ffc026c22bcf9a3248bb030c8de491812b7158ab9",
+          "bytes": 10470928
+        },
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\gridcraft.exe",
+          "sha256": "a66209fc34edec4726ae4465a979a71c12490342d4b32558429bbb585999c386",
+          "bytes": 27342864
+        },
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "7b6e0288d68469fee98354364cdc0e945a1a4d4cd9c02ed11df9406c1715587e",
+          "bytes": 1122
+        },
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "gridcraft-0.3.0-windows-x64-portable\\README.md",
+          "sha256": "9545ae7964c5424511754d6b25109f9731dc966b815906fc67abf67b6a05c88e",
+          "bytes": 18556
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/gridcraft/releases/download/v0.3.0/gridcraft-0.3.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "LightCraft",
+      "repo": "lightcraft",
+      "version": "v0.4.0",
+      "purpose": "Photo library and development",
+      "releaseUrl": "https://github.com/storytold/lightcraft/releases/tag/v0.4.0",
+      "payload": "Payloads\\lightcraft\\lightcraft-0.4.0-windows-x64-portable.zip",
+      "payloadBytes": 64320094,
+      "sha256": "f875310b3a903da6afbf61fd8c8b91c823ce101f46ffaad97574f15c36b39325",
+      "gui": "lightcraft-0.4.0-windows-x64-portable\\lightcraft.exe",
+      "cli": "lightcraft-0.4.0-windows-x64-portable\\lightcraft-cli.exe",
+      "installedBytes": 142601332,
+      "files": [
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "137d4149817f85722be8cf6e7666ee3b907523b3dac153e0e8c76b5b2d5e9175",
+          "bytes": 1123
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\lightcraft-cli.exe",
+          "sha256": "e022f45625bba24d4bc9e2e17f215c894c704d0b96d727dff95958d966a68cfe",
+          "bytes": 70004760
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\lightcraft.exe",
+          "sha256": "80cbd51770c761d61ca80406227f65de19f2b7a04b2df1c9c9b0c793631d68c9",
+          "bytes": 72534552
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\NOTICE",
+          "sha256": "bdec5a6552c1f7dd2955786a58224da761489f10b5af9d1f7cc731119bde2720",
+          "bytes": 2116
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "lightcraft-0.4.0-windows-x64-portable\\README.md",
+          "sha256": "bc58760c74241aebf9fddf3cb21127d8706041fa3783be20e0afd120529b41cb",
+          "bytes": 34936
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/lightcraft/releases/download/v0.4.0/lightcraft-0.4.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "PdfCraft",
+      "repo": "pdfcraft",
+      "version": "v0.4.0",
+      "purpose": "PDF viewing and editing",
+      "releaseUrl": "https://github.com/storytold/pdfcraft/releases/tag/v0.4.0",
+      "payload": "Payloads\\pdfcraft\\pdfcraft-0.4.0-windows-x64-portable.zip",
+      "payloadBytes": 54951540,
+      "sha256": "6bd2f7740708498cd8919007118c38ca86079963ae6407a08e2016d206351e98",
+      "gui": "pdfcraft-0.4.0-windows-x64-portable\\pdfcraft.exe",
+      "cli": "pdfcraft-0.4.0-windows-x64-portable\\pdfcraft-cli.exe",
+      "installedBytes": 122017342,
+      "files": [
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+          "bytes": 10174
+        },
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "cd7032ea33b71427f188e34ffb4aee9d6868a57fd196037c5c8b2be03a2a0352",
+          "bytes": 1100
+        },
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\pdfcraft-cli.exe",
+          "sha256": "e92d20827e0b23efdcccb9aa799d3e99a695bc3412bcffc99f36724c01379ca7",
+          "bytes": 42418704
+        },
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\pdfcraft.exe",
+          "sha256": "246d1d5c39dae06a6622527d8520e91415c2bcac0daef2a6bf0258bad472008c",
+          "bytes": 79544336
+        },
+        {
+          "path": "pdfcraft-0.4.0-windows-x64-portable\\README.md",
+          "sha256": "257c44beed67e97aee8360c50dca79341d45d3fa2076f67a4ada56c389c83ab0",
+          "bytes": 29534
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/pdfcraft/releases/download/v0.4.0/pdfcraft-0.4.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "PhotoCraft",
+      "repo": "photocraft",
+      "version": "v0.5.0",
+      "purpose": "Image editing",
+      "releaseUrl": "https://github.com/storytold/photocraft/releases/tag/v0.5.0",
+      "payload": "Payloads\\photocraft\\photocraft-0.5.0-windows-x64-portable.zip",
+      "payloadBytes": 67717284,
+      "sha256": "da0402c19aa1b65f3cde310461cc6e41d391791e6097659a34006e526fb9d9cd",
+      "gui": "photocraft-0.5.0-windows-x64-portable\\photocraft.exe",
+      "cli": "photocraft-0.5.0-windows-x64-portable\\photocraft-cli.exe",
+      "installedBytes": 139288290,
+      "files": [
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "77c414bd870a0cc1a5ec06e7aeae0d379713d1d5d2d38e8d0903002e4d572537",
+          "bytes": 1123
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\photocraft-cli.exe",
+          "sha256": "33ec305064bb4887ec966cd51c419aa87b4217344b38242ff8282ed3e8db6ac7",
+          "bytes": 58265112
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\photocraft.exe",
+          "sha256": "942c1c34f38e2848b78f02e703cd4d6f49fda53c6d689a79993f48fc86b3b196",
+          "bytes": 80968216
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\portable.txt",
+          "sha256": "765cf8f8ffc8ee57f83f31e5eb2d453183e2e96ba97417ab9238717ccb27183b",
+          "bytes": 527
+        },
+        {
+          "path": "photocraft-0.5.0-windows-x64-portable\\README.md",
+          "sha256": "9c0f216899976466027cc056d7052791b3ba5bd3ebedebee9d95f7f8bed4b851",
+          "bytes": 29467
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/photocraft/releases/download/v0.5.0/photocraft-0.5.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "SoundCraft",
+      "repo": "soundcraft",
+      "version": "v0.3.0",
+      "purpose": "Audio editing and mixing",
+      "releaseUrl": "https://github.com/storytold/soundcraft/releases/tag/v0.3.0",
+      "payload": "Payloads\\soundcraft\\soundcraft-0.3.0-windows-x64-portable.zip",
+      "payloadBytes": 13612929,
+      "sha256": "36429165e703f3dfbdbc82dc517235422e420685852424bfc4bf112db6ce679f",
+      "gui": "soundcraft-0.3.0-windows-x64-portable\\soundcraft.exe",
+      "cli": "soundcraft-0.3.0-windows-x64-portable\\soundcraft-cli.exe",
+      "installedBytes": 33825067,
+      "files": [
+        {
+          "path": "soundcraft-0.3.0-windows-x64-portable\\ATTRIBUTION.md",
+          "sha256": "87be91d89b6cfe3d6d869927bb2d003da3dcd78899f81cb35f4bc62e15f81c2a",
+          "bytes": 3133
+        },
+        {
+          "path": "soundcraft-0.3.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "soundcraft-0.3.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "fbb55419a607da029b282ea2466c3b0416d9566762fa86e78242b606456c870d",
+          "bytes": 1123
+        },
+        {
+          "path": "soundcraft-0.3.0-windows-x64-portable\\NOTICE",
+          "sha256": "f029ae432917d84830328e4d4eb28274d393d06d73fa1eee6a2317742c817737",
+          "bytes": 849
+        },
+        {
+          "path": "soundcraft-0.3.0-windows-x64-portable\\README.md",
+          "sha256": "5f5449052d86ed165a862e67bcd14d17cac7e6097ba53dc2d555cfb8dfe6df7a",
+          "bytes": 20635
+        },
+        {
+          "path": "soundcraft-0.3.0-windows-x64-portable\\soundcraft-cli.exe",
+          "sha256": "7efee1c1ba400993636966a9fde7115a5004341f21cc51f960538eb074a099e6",
+          "bytes": 7626776
+        },
+        {
+          "path": "soundcraft-0.3.0-windows-x64-portable\\soundcraft.exe",
+          "sha256": "b59fe1b3e909afdc44479ba4aa94595bd273f63852b731dae8b54f1ce76d794f",
+          "bytes": 26162200
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/soundcraft/releases/download/v0.3.0/soundcraft-0.3.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "VectorCraft",
+      "repo": "vectorcraft",
+      "version": "v0.7.0",
+      "purpose": "Vector illustration",
+      "releaseUrl": "https://github.com/storytold/vectorcraft/releases/tag/v0.7.0",
+      "payload": "Payloads\\vectorcraft\\vectorcraft-0.7.0-windows-x64-portable.zip",
+      "payloadBytes": 77883484,
+      "sha256": "fcc95e2e5a3c3ea2249647b0ab26dff170227e7e4ed08234c6a6800ea4244ce3",
+      "gui": "vectorcraft-0.7.0-windows-x64-portable\\vectorcraft.exe",
+      "cli": "vectorcraft-0.7.0-windows-x64-portable\\vectorcraft-cli.exe",
+      "installedBytes": 169255787,
+      "files": [
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "35df9e2dc3b04cabb920bd0e3709569f4338f75d7a85548f5b0d3cc7e57af304",
+          "bytes": 1124
+        },
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\README.md",
+          "sha256": "85aaeaa2ee3107d44c16c54f370df0f99164781823569a9bbedfe1890f070ca8",
+          "bytes": 20914
+        },
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\vectorcraft-cli.exe",
+          "sha256": "1bea12ca94cb937512a003722fbd6be806f5775b91ac5b3fffa67449e0c9ff6d",
+          "bytes": 71149592
+        },
+        {
+          "path": "vectorcraft-0.7.0-windows-x64-portable\\vectorcraft.exe",
+          "sha256": "97c007716f74cbee958f9a6fe9f99f7c888a8823fb55d39b85ac0ab239aac137",
+          "bytes": 98060312
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/vectorcraft/releases/download/v0.7.0/vectorcraft-0.7.0-windows-x64-portable.zip"
+    },
+    {
+      "name": "WordCraft",
+      "repo": "wordcraft",
+      "version": "v0.3.0",
+      "purpose": "Word processing",
+      "releaseUrl": "https://github.com/storytold/wordcraft/releases/tag/v0.3.0",
+      "payload": "Payloads\\wordcraft\\wordcraft-0.3.0-windows-x64-portable.zip",
+      "payloadBytes": 56179283,
+      "sha256": "51230628ff51977126d4d8f6db44942aac9b6e1ef4d42e3220a9f030a0503aed",
+      "gui": "wordcraft-0.3.0-windows-x64-portable\\wordcraft.exe",
+      "cli": "wordcraft-0.3.0-windows-x64-portable\\wordcraft-cli.exe",
+      "installedBytes": 111590835,
+      "files": [
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\LICENSE-APACHE",
+          "sha256": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+          "bytes": 10351
+        },
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\LICENSE-MIT",
+          "sha256": "a15941cbcb0e32a2ef09d2da5d0b90bea3a3ebbdf5fb075c3f7dfde7af95b3ab",
+          "bytes": 1122
+        },
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\OFL-biz-ud-mincho.txt",
+          "sha256": "9c244a5edd2525aa4aa43dd714d7de00f3b3591a522d82d724db3644b5a95568",
+          "bytes": 4501
+        },
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\OFL-biz-ud-pgothic.txt",
+          "sha256": "062c81ae55b5ddd56c08331c8fe86598c1ef7f4453560c74706427a008b68534",
+          "bytes": 4501
+        },
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\OFL-shippori-mincho.txt",
+          "sha256": "0aef534f5885c2f30b360ed5fb09ea4661a40ec62845c35f8354e26d7977d87d",
+          "bytes": 4492
+        },
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\README.md",
+          "sha256": "c371354d4c82b93a7a409fe33195ace70d2c1a5e7bcb991f5343f727b4f94560",
+          "bytes": 20492
+        },
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\wordcraft-cli.exe",
+          "sha256": "83cbd795da64c1672e6c11658a347f4680cf0bdc7c867be466504e60b425b26d",
+          "bytes": 46403088
+        },
+        {
+          "path": "wordcraft-0.3.0-windows-x64-portable\\wordcraft.exe",
+          "sha256": "1882a84a7867d8ee83d396683fca776b2daff327a5e0a01767c2f2130f615837",
+          "bytes": 65142288
+        }
+      ],
+      "downloadUrl": "https://github.com/storytold/wordcraft/releases/download/v0.3.0/wordcraft-0.3.0-windows-x64-portable.zip"
+    }
+  ],
+  "supportFiles": [],
+  "entryPoint": "Setup.exe"
+}
