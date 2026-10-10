@@ -9,8 +9,8 @@ using System.Windows.Forms;
 [assembly: AssemblyDescription("Graphical community installer for unmodified official Craft app releases.")]
 [assembly: AssemblyCompany("Community installer")]
 [assembly: AssemblyProduct("Craft Suite Setup")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
 
 internal static class CraftSetup {
     [STAThread]

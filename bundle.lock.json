@@ -1,6 +1,6 @@
 {
   "bundleId": "craft-community-offline-suite",
-  "bundleVersion": "2026-10-10-graphical",
+  "bundleVersion": "2026-10-10-selective",
   "platform": "windows-x64",
   "officialBundle": false,
   "networkRequired": false,
