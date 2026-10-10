@@ -1,51 +1,49 @@
 CRAFT SUITE - INCLUDED OFFICIAL RELEASES
 
-CADCraft v0.3.0 - CAD drawing and drafting
-https://github.com/storytold/cadcraft/releases/tag/v0.3.0
-SHA256: adfeb84955423f26d58b5ae0b36bb865d2d97f03b0c847bd8d82259d59dbfd69
+CADCraft v0.4.0 - CAD drawing and drafting
+https://github.com/storytold/cadcraft/releases/tag/v0.4.0
+SHA256: f16d437834520eaaa304102f3df22b2c9429c863e052309cdd009f98f7aee898
 
-DeckCraft v0.3.0 - Presentations
-https://github.com/storytold/deckcraft/releases/tag/v0.3.0
-SHA256: 5e45d932e713a9b39ddbec33032ca7aabdbaf602c275cc46cc04cb8a18d4c535
+DeckCraft v0.4.0 - Presentations
+https://github.com/storytold/deckcraft/releases/tag/v0.4.0
+SHA256: a6c0074620827c3c560129f0c307321de2f482f2185346077c53c354b9ef20ad
 
-DesignCraft v0.4.0 - Page layouts and publishing
-https://github.com/storytold/designcraft/releases/tag/v0.4.0
-SHA256: dfc76a2a5428f02207a05e985319e36eba8f0e3c9a1eec5f80050c15047097b3
+DesignCraft v0.5.0 - Page layouts and publishing
+https://github.com/storytold/designcraft/releases/tag/v0.5.0
+SHA256: 5656f62f634a8a259f81906597416cbbeded9c42b0e295d86cac17835eeb6f85
 
-EffectCraft v0.6.0 - Motion graphics and compositing
-https://github.com/storytold/effectcraft/releases/tag/v0.6.0
-SHA256: 07cfa4da3ab0e19908967326cd3530f28ce7a06ff0517b42f49b553113f9034a
+EffectCraft v0.7.0 - Motion graphics and compositing
+https://github.com/storytold/effectcraft/releases/tag/v0.7.0
+SHA256: c5d22957f4f8f6c9190e8a4ba10de04f301c3eaaaa9e0dcc730675d65f32f850
 
-FilmCraft v0.4.0 - Video editing
-https://github.com/storytold/filmcraft/releases/tag/v0.4.0
-SHA256: f62a9a8d6acae0f136ef5810d96bffa629f8e4b85e0a4f8bd2b36d43164e2316
+FilmCraft v0.5.0 - Video editing
+https://github.com/storytold/filmcraft/releases/tag/v0.5.0
+SHA256: d4ce8aaa17826db1aaa4fceb51aaab5f6cdfdd75eeaa22b702bc95b8f39a6c44
 
-GridCraft v0.3.0 - Spreadsheets
-https://github.com/storytold/gridcraft/releases/tag/v0.3.0
-SHA256: 30c667f5a1275e746bbce647b40574113752f31db946fa4018c9b5ecf6164087
+GridCraft v0.4.0 - Spreadsheets
+https://github.com/storytold/gridcraft/releases/tag/v0.4.0
+SHA256: 5cc4c595c6437882837c3d067c6f7bffa0e6452508f162a72a06088d513c9b23
 
-LightCraft v0.4.0 - Photo library and development
-https://github.com/storytold/lightcraft/releases/tag/v0.4.0
-SHA256: f875310b3a903da6afbf61fd8c8b91c823ce101f46ffaad97574f15c36b39325
+LightCraft v0.5.0 - Photo library and development
+https://github.com/storytold/lightcraft/releases/tag/v0.5.0
+SHA256: 633cc22cdc7fc1ece2feb7cf4fe8216c3c7dc6668b0e4453cc53063908a432b1
 
-PdfCraft v0.4.0 - PDF viewing and editing
-https://github.com/storytold/pdfcraft/releases/tag/v0.4.0
-SHA256: 6bd2f7740708498cd8919007118c38ca86079963ae6407a08e2016d206351e98
+PdfCraft v0.5.0 - PDF viewing and editing
+https://github.com/storytold/pdfcraft/releases/tag/v0.5.0
+SHA256: 50544bc6141e21e6476fcff74cba8d1ef8ff2fa23d073029d250975158c8a992
 
-PhotoCraft v0.5.0 - Image editing
-https://github.com/storytold/photocraft/releases/tag/v0.5.0
-SHA256: da0402c19aa1b65f3cde310461cc6e41d391791e6097659a34006e526fb9d9cd
+PhotoCraft v0.6.0 - Image editing
+https://github.com/storytold/photocraft/releases/tag/v0.6.0
+SHA256: 26b8f77af98de72726d90f0b28a0a8ca10ced8e49914454ddeacd12143836ab3
 
-SoundCraft v0.3.0 - Audio editing and mixing
-https://github.com/storytold/soundcraft/releases/tag/v0.3.0
-SHA256: 36429165e703f3dfbdbc82dc517235422e420685852424bfc4bf112db6ce679f
+SoundCraft v0.4.0 - Audio editing and mixing
+https://github.com/storytold/soundcraft/releases/tag/v0.4.0
+SHA256: 7d53e7f20c345eadef2a6277c314dac8f9b6a22e223916d1cb5f380e6bda82b2
 
-VectorCraft v0.7.0 - Vector illustration
-https://github.com/storytold/vectorcraft/releases/tag/v0.7.0
-SHA256: fcc95e2e5a3c3ea2249647b0ab26dff170227e7e4ed08234c6a6800ea4244ce3
+VectorCraft v0.8.0 - Vector illustration
+https://github.com/storytold/vectorcraft/releases/tag/v0.8.0
+SHA256: e25ea8d7597e8bfc6ffaf6327f85f259687c213216a15f3e8bb3d9e7ee940afe
 
-WordCraft v0.3.0 - Word processing
-https://github.com/storytold/wordcraft/releases/tag/v0.3.0
-SHA256: 51230628ff51977126d4d8f6db44942aac9b6e1ef4d42e3220a9f030a0503aed
-
-ArtCraft Studio excluded. No network downloads during installation.
+WordCraft v0.4.0 - Word processing
+https://github.com/storytold/wordcraft/releases/tag/v0.4.0
+SHA256: 2e43b7d49eb9d0ff22f9df95b24eede135fd049bbd0c15706438bc588d29c512

@@ -1,5 +1,10 @@
 # Releases
 
+## v1.4.1-preview.1
+
+Refresh all twelve bundled Windows apps to the checked 10 October upstream releases, including PhotoCraft 0.6.0. Existing installer interface and app actions preserved. One current version per app; previous releases retained separately.
+
+
 ## v1.4.0-preview.1
 
 App cards now offer Install, Open or Update. A discreet menu offers another independent copy, folder access and remembered copy selection. Existing bulk selection, branded colours, original payloads and side-by-side update preservation remain.
