@@ -1,5 +1,10 @@
 # Releases
 
+## v1.2.1-preview.1
+
+Recognisable software-workflow descriptions, clearer action/status text and versions moved into hover details. Release filenames include the three-part version. Install/update engine and app releases unchanged.
+
+
 ## v1.2.0-preview.1
 
 App selection, offline installed-versus-bundled status, selected-app space estimate, backward-compatible receipts, remembered installation folder, add-later support, side-by-side updates and downgrade refusal. Existing apps/projects and older version folders are retained.

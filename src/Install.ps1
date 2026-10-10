@@ -225,9 +225,9 @@ $content=New-Object Windows.Forms.Panel;$content.Location=[Drawing.Point]::new(2
 $cards=New-Object Windows.Forms.TableLayoutPanel;$cards.Location=[Drawing.Point]::new(-5,34);$cards.Size=[Drawing.Size]::new(742,344);$cards.Anchor='Top,Left,Right';$cards.ColumnCount=3;$cards.RowCount=4
 for($i=0;$i -lt 3;$i++){[void]$cards.ColumnStyles.Add([Windows.Forms.ColumnStyle]::new([Windows.Forms.SizeType]::Percent,33.3333))}
 for($i=0;$i -lt 4;$i++){[void]$cards.RowStyles.Add([Windows.Forms.RowStyle]::new([Windows.Forms.SizeType]::Percent,25))}
-$descriptions=@{FilmCraft='Video editing';EffectCraft='Motion graphics';SoundCraft='Audio editing and mixing';PhotoCraft='Image editing';LightCraft='Photo organisation';VectorCraft='Vector illustration';DesignCraft='Page layouts';CADCraft='CAD drawing and drafting';PdfCraft='PDF viewing and editing';WordCraft='Word processing';GridCraft='Spreadsheets';DeckCraft='Presentations'}
+$descriptions=@{FilmCraft='Premiere Pro-style editor';EffectCraft='After Effects-style motion';SoundCraft='Pro Tools-style audio';PhotoCraft='Photoshop-style editor';LightCraft='Lightroom-style library';VectorCraft='Illustrator-style drawing';DesignCraft='InDesign-style layouts';CADCraft='AutoCAD-style drafting';PdfCraft='Acrobat-style PDF tools';WordCraft='Word-style documents';GridCraft='Excel-style spreadsheets';DeckCraft='PowerPoint-style slides'}
 $order=@('FilmCraft','EffectCraft','SoundCraft','PhotoCraft','LightCraft','VectorCraft','DesignCraft','CADCraft','PdfCraft','WordCraft','GridCraft','DeckCraft')
-$script:AppChecks=@{};$script:AppLabels=@{};$script:AppStates=@{};$script:Refreshing=$false
+$script:AppTips=New-Object Windows.Forms.ToolTip;$script:AppChecks=@{};$script:AppLabels=@{};$script:AppStates=@{};$script:Refreshing=$false
 $selectAll=New-Object Windows.Forms.Button;$selectAll.Text='Select all';$selectAll.Anchor='Top,Right';$selectAll.Location=[Drawing.Point]::new(494,-2);$selectAll.Size=[Drawing.Size]::new(110,28);$content.Controls.Add($selectAll)
 $selectNone=New-Object Windows.Forms.Button;$selectNone.Text='Select none';$selectNone.Anchor='Top,Right';$selectNone.Location=[Drawing.Point]::new(616,-2);$selectNone.Size=[Drawing.Size]::new(110,28);$content.Controls.Add($selectNone)
 $n=0
@@ -258,7 +258,7 @@ $script:ProgressCallback={param($message,$percent)$status.Text=$message;$progres
 $install.Add_Click({
  if($script:InstalledTarget){Start-Process -FilePath 'explorer.exe' -ArgumentList ('"'+(Join-Path $script:InstalledTarget 'Launchers')+'"');$form.Close();return}
  $script:Busy=$true;$install.Enabled=$false;$cards.Enabled=$false;$selectAll.Enabled=$false;$selectNone.Enabled=$false;$location.Enabled=$false;$browse.Enabled=$false;$shortcuts.Enabled=$false;$detail.Text='Please keep this window open while your apps are installed.'
- try{$names=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked});$result=Install-Suite $location.Text $shortcuts.Checked $names;$script:InstalledTarget=$result.destination;$install.Text='Open your apps';$status.Text="You're ready to create.";$detail.Text=($result.selected.Count.ToString()+' selected apps ready. Other apps were kept.');Refresh-AppCards $false}
+ try{$names=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked});$result=Install-Suite $location.Text $shortcuts.Checked $names;$script:InstalledTarget=$result.destination;$install.Text='Open your apps';$status.Text="You're ready to create.";$noun='apps';if($result.selected.Count -eq 1){$noun='app'};$detail.Text=($result.selected.Count.ToString()+' '+$noun+' ready. Other apps were kept.');Refresh-AppCards $false}
  catch{$script:UiError=$_.Exception.Message;$status.Text='Setup could not finish.';$detail.Text='Your existing files have been preserved.';if(-not $GuiTestDestination){[void][Windows.Forms.MessageBox]::Show($form,$script:UiError,'Setup needs your attention','OK','Information')};$location.Enabled=$true;$browse.Enabled=$true;$shortcuts.Enabled=$true}
  finally{$script:Busy=$false;$install.Enabled=$true;$cards.Enabled=$true;$selectAll.Enabled=$true;$selectNone.Enabled=$true}
 })
@@ -267,14 +267,16 @@ function Update-SelectionSummary {
  $names=@($script:AppChecks.Keys | Where-Object {$script:AppChecks[$_].Checked})
  $bytes=0;foreach($app in $script:Manifest.apps){if($names -contains $app.name){$bytes+=$app.installedBytes}}
  $detail.Text=('{0} selected - approx. {1:N0} MB. No downloads.' -f $names.Count,($bytes/1MB))
- $install.Enabled=($names.Count -gt 0);$status.Text='Compare with the versions included in this ZIP.'
+ $install.Enabled=($names.Count -gt 0);$status.Text="Choose the apps you'd like to install or update.";if($names.Count -eq 0){$status.Text='Choose an app to continue.'}
 }
 function Refresh-AppCards([bool]$reset){
  $script:Refreshing=$true
  foreach($app in $script:Manifest.apps){
   $state=App-State $app $location.Text;$script:AppStates[$app.name]=$state
-  $label=$script:AppLabels[$app.name];$label.Text=$state.status+' - '+$app.version
-  if($state.installed){$label.Text=$state.status+"`n"+'Installed '+$state.installed+' | ZIP '+$app.version}
+  $friendly=@{'Not installed'='Ready to install';'Up to date'='Already installed';'Update available'='Update available';'Newer than this bundle'='Newer version installed';'Needs attention'='Check installation folder'}
+  $label=$script:AppLabels[$app.name];$label.Text=$friendly[$state.status]
+  $tip='Included version: '+$app.version;if($state.installed){$tip='Installed version: '+$state.installed+"`n"+$tip};if($state.detail){$tip=$state.detail+"`n"+$tip}
+  $script:AppTips.SetToolTip($label,$tip);$script:AppTips.SetToolTip($script:AppChecks[$app.name],$tip)
   $label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#607087')
   if($state.status -eq 'Update available'){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#95620b')}
   if($state.status -eq 'Up to date'){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#276545')}

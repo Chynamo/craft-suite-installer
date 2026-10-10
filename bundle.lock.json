@@ -1,6 +1,6 @@
 {
   "bundleId": "craft-community-offline-suite",
-  "bundleVersion": "2026-10-10-selective",
+  "bundleVersion": "2026-10-10-friendly",
   "platform": "windows-x64",
   "officialBundle": false,
   "networkRequired": false,
@@ -747,5 +747,6 @@
     }
   ],
   "supportFiles": [],
-  "entryPoint": "Setup.exe"
+  "entryPoint": "Setup.exe",
+  "installerVersion": "1.2.1"
 }

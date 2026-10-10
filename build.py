@@ -68,7 +68,7 @@ def main():
     for rel,target in payloads:
         p=data/rel;p.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(target,p)
     dist=ROOT/'dist';dist.mkdir(exist_ok=True)
-    output=dist/'Craft-Suite-Windows-x64-Setup.zip'
+    output=dist/('Craft-Suite-'+lock['installerVersion']+'-Windows-x64-Setup.zip')
     if output.exists(): raise FileExistsError('Release file already exists; it was preserved.')
     with zipfile.ZipFile(output,'w',allowZip64=True) as z:
         for p in sorted(package.rglob('*')):
@@ -79,7 +79,7 @@ def main():
                 with p.open('rb') as f,z.open(info,'w',force_zip64=True) as out: shutil.copyfileobj(f,out)
     with zipfile.ZipFile(output) as z:
         if z.testzip() is not None: raise ValueError('Output archive CRC failure')
-    (dist/'Craft-Suite-Windows-x64-Setup.sha256').write_text(digest(output)+'  '+output.name+'\n',encoding='utf-8',newline='\n')
+    output.with_suffix('.sha256').write_text(digest(output)+'  '+output.name+'\n',encoding='utf-8',newline='\n')
     print(output)
 
 if __name__=='__main__':main()
