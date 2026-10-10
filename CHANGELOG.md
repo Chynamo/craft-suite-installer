@@ -1,5 +1,10 @@
 # Releases
 
+## v1.3.1-preview.1
+
+Palette-only refinement: charcoal, warm cream and red from the maintainer's established branding. Layout, original icons, status colours and installation behaviour unchanged.
+
+
 ## v1.3.0-preview.1
 
 Original app-card design with actual Craft icons, category browsing, selected-card feedback and responsive two/three-column layout. Install/update engine and app versions unchanged.

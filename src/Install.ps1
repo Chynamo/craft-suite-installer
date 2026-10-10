@@ -211,32 +211,32 @@ Add-Type -TypeDefinition @'
 using System; using System.Drawing; using System.Drawing.Drawing2D; using System.Windows.Forms;
 public class CraftSuiteCard : Panel {
  public bool Selected=false;
- public CraftSuiteCard(){DoubleBuffered=true;BackColor=Color.FromArgb(246,247,250);}
+ public CraftSuiteCard(){DoubleBuffered=true;BackColor=Color.FromArgb(243,240,235);}
  protected override void OnPaint(PaintEventArgs e){
   base.OnPaint(e);e.Graphics.SmoothingMode=SmoothingMode.AntiAlias;
   RectangleF r=new RectangleF(1,1,Width-3,Height-3);float d=16;
   using(GraphicsPath p=new GraphicsPath()){
    p.AddArc(r.Left,r.Top,d,d,180,90);p.AddArc(r.Right-d,r.Top,d,d,270,90);
    p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90);p.AddArc(r.Left,r.Bottom-d,d,d,90,90);p.CloseFigure();
-   using(Brush b=new SolidBrush(Selected?Color.FromArgb(239,244,253):Color.White))e.Graphics.FillPath(b,p);
-   using(Pen pen=new Pen(Selected?Color.FromArgb(83,116,183):Color.FromArgb(221,226,234),Selected?1.5f:1f))e.Graphics.DrawPath(pen,p);
+   using(Brush b=new SolidBrush(Selected?Color.FromArgb(252,233,238):Color.White))e.Graphics.FillPath(b,p);
+   using(Pen pen=new Pen(Selected?Color.FromArgb(227,19,59):Color.FromArgb(213,208,202),Selected?1.5f:1f))e.Graphics.DrawPath(pen,p);
   }
  }
 }
 '@ -ReferencedAssemblies System.Drawing,System.Windows.Forms
 $form=New-Object Windows.Forms.Form
-$form.Text='Craft Suite Setup';$form.StartPosition='CenterScreen';$form.Font=[Drawing.Font]::new('Segoe UI',10);$form.BackColor=[Drawing.ColorTranslator]::FromHtml('#f6f7fa')
+$form.Text='Craft Suite Setup';$form.StartPosition='CenterScreen';$form.Font=[Drawing.Font]::new('Segoe UI',10);$form.BackColor=[Drawing.ColorTranslator]::FromHtml('#f3f0eb')
 $form.ClientSize=[Drawing.Size]::new(940,[Math]::Min(850,[Windows.Forms.Screen]::PrimaryScreen.WorkingArea.Height-100));$form.MinimumSize=[Drawing.Size]::new(650,580);$form.MaximizeBox=$true
-function Text-Control($parent,$text,$x,$y,$width,$height,$points=10,$bold=$false,$colour='#243249'){
+function Text-Control($parent,$text,$x,$y,$width,$height,$points=10,$bold=$false,$colour='#121214'){
  $c=New-Object Windows.Forms.Label;$c.UseMnemonic=$false;$c.Text=$text;$c.BackColor=[Drawing.Color]::Transparent;$c.Location=[Drawing.Point]::new($x,$y);$c.Size=[Drawing.Size]::new($width,$height);$style=[Drawing.FontStyle]::Regular;if($bold){$style=[Drawing.FontStyle]::Bold};$c.Font=[Drawing.Font]::new('Segoe UI',$points,$style);$c.ForeColor=[Drawing.ColorTranslator]::FromHtml($colour);$parent.Controls.Add($c);return $c
 }
 function Plain-Button($parent,$text,$x,$y,$width){
- $b=New-Object Windows.Forms.Button;$b.UseMnemonic=$false;$b.Text=$text;$b.Location=[Drawing.Point]::new($x,$y);$b.Size=[Drawing.Size]::new($width,30);$b.FlatStyle='Flat';$b.FlatAppearance.BorderColor=[Drawing.ColorTranslator]::FromHtml('#d7dde7');$b.BackColor=[Drawing.Color]::White;$b.Font=[Drawing.Font]::new('Segoe UI',9);$parent.Controls.Add($b);return $b
+ $b=New-Object Windows.Forms.Button;$b.UseMnemonic=$false;$b.Text=$text;$b.Location=[Drawing.Point]::new($x,$y);$b.Size=[Drawing.Size]::new($width,30);$b.FlatStyle='Flat';$b.FlatAppearance.BorderColor=[Drawing.ColorTranslator]::FromHtml('#d5d0ca');$b.BackColor=[Drawing.Color]::White;$b.Font=[Drawing.Font]::new('Segoe UI',9);$parent.Controls.Add($b);return $b
 }
-$header=New-Object Windows.Forms.Panel;$header.Width=940;$header.Dock='Top';$header.Height=112;$header.BackColor=[Drawing.ColorTranslator]::FromHtml('#192d4b')
-[void](Text-Control $header 'CRAFT SUITE' 28 17 650 20 9 $true '#a7c5f6')
+$header=New-Object Windows.Forms.Panel;$header.Width=940;$header.Dock='Top';$header.Height=112;$header.BackColor=[Drawing.ColorTranslator]::FromHtml('#121214')
+[void](Text-Control $header 'CRAFT SUITE' 28 17 650 20 9 $true '#ff8aa3')
 [void](Text-Control $header 'Make room for your next idea.' 26 39 840 39 25 $true '#ffffff')
-[void](Text-Control $header 'Choose your tools. Install them once. Add more whenever you need them.' 28 82 860 22 10 $false '#d5e2f5')
+[void](Text-Control $header 'Choose your tools. Install them once. Add more whenever you need them.' 28 82 860 22 10 $false '#e7e2dc')
 $toolbar=New-Object Windows.Forms.Panel;$toolbar.Width=940;$toolbar.Dock='Top';$toolbar.Height=94;$toolbar.BackColor=$form.BackColor
 [void](Text-Control $toolbar 'Your apps' 28 12 280 29 16 $true)
 $selectAll=Plain-Button $toolbar 'Select all apps' 668 12 112;$selectAll.Anchor='Top,Right'
@@ -258,9 +258,9 @@ foreach($name in $order){
  $icon=New-Object Windows.Forms.PictureBox;$icon.Location=[Drawing.Point]::new(18,19);$icon.Size=[Drawing.Size]::new(32,32);$icon.BackColor=[Drawing.Color]::Transparent
  $iconFile=Join-Path $script:BundleRoot ('AppIcons\'+$name+'.png');if(Test-Path -LiteralPath $iconFile){$icon.Image=[Drawing.Image]::FromFile($iconFile)};$card.Controls.Add($icon)
  $title=Text-Control $card $name 62 15 206 26 12 $true;$title.Anchor='Top,Left,Right'
- $description=Text-Control $card $descriptions[$name] 62 41 206 21 9 $false '#627187';$description.Anchor='Top,Left,Right'
- $group=Text-Control $card $script:Groups[$name] 18 73 248 20 8 $false '#6e7a8d';$group.Anchor='Top,Left,Right'
- $stateLabel=Text-Control $card '' 18 100 148 22 9 $false '#627187';$stateLabel.Anchor='Top,Left,Right';$script:AppLabels[$name]=$stateLabel
+ $description=Text-Control $card $descriptions[$name] 62 41 206 21 9 $false '#625e59';$description.Anchor='Top,Left,Right'
+ $group=Text-Control $card $script:Groups[$name] 18 73 248 20 8 $false '#726c66';$group.Anchor='Top,Left,Right'
+ $stateLabel=Text-Control $card '' 18 100 148 22 9 $false '#625e59';$stateLabel.Anchor='Top,Left,Right';$script:AppLabels[$name]=$stateLabel
  $check=New-Object Windows.Forms.CheckBox;$check.Text='Include';$check.Checked=$true;$check.Location=[Drawing.Point]::new(192,97);$check.Size=[Drawing.Size]::new(76,26);$check.BackColor=[Drawing.Color]::Transparent;$check.Anchor='Top,Right';$card.Controls.Add($check);$script:AppChecks[$name]=$check
  $check.Add_CheckedChanged({if(-not $script:Refreshing){Update-SelectionSummary}})
  $toggle={if($check.Enabled -and -not $script:Busy){$check.Checked=-not $check.Checked}}.GetNewClosure();$card.Add_Click($toggle);$title.Add_Click($toggle);$icon.Add_Click($toggle)
@@ -274,7 +274,7 @@ function Layout-AppCards {
   $cardWidth=[int][Math]::Floor($width/$cols)-12;$visible=0;$cards.SuspendLayout()
   foreach($name in $order){$card=$script:CardViews[$name];$showCard=($script:Category -eq 'All apps' -or $script:Groups[$name] -eq $script:Category);$card.Visible=$showCard;$card.Size=[Drawing.Size]::new($cardWidth,132);if($showCard){$visible++}}
   $cards.Width=$width;$content.Width=$width;$height=[int][Math]::Ceiling($visible/$cols)*144;$cards.Height=[Math]::Max(144,$height);$content.Height=$cards.Height+10;$cards.ResumeLayout()
-  foreach($categoryName in $categories){$b=$script:CategoryButtons[$categoryName];$b.BackColor=[Drawing.Color]::White;$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#526078');if($categoryName -eq $script:Category){$b.BackColor=[Drawing.ColorTranslator]::FromHtml('#e7edf8');$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#234d91')}}
+  foreach($categoryName in $categories){$b=$script:CategoryButtons[$categoryName];$b.BackColor=[Drawing.Color]::White;$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#625e59');if($categoryName -eq $script:Category){$b.BackColor=[Drawing.ColorTranslator]::FromHtml('#fce9ee');$b.ForeColor=[Drawing.ColorTranslator]::FromHtml('#b00e2d')}}
  }finally{$script:LayoutBusy=$false}
 }
 $body.Add_SizeChanged({Layout-AppCards})
@@ -285,8 +285,8 @@ $browse.Add_Click({$dialog=New-Object Windows.Forms.FolderBrowserDialog;$dialog.
 $shortcuts=New-Object Windows.Forms.CheckBox;$shortcuts.Text='Add Desktop and Start Menu shortcuts';$shortcuts.Checked=$true;$shortcuts.Location=[Drawing.Point]::new(28,70);$shortcuts.Size=[Drawing.Size]::new(600,25);$choices.Controls.Add($shortcuts)
 $progress=New-Object Windows.Forms.ProgressBar;$progress.Location=[Drawing.Point]::new(28,8);$progress.Size=[Drawing.Size]::new(884,5);$progress.Anchor='Top,Left,Right';$footer.Controls.Add($progress)
 $status=Text-Control $footer 'Choose your tools.' 28 24 636 26 11 $true;$status.Anchor='Top,Left,Right'
-$detail=Text-Control $footer '' 28 53 636 23 9 $false '#627187';$detail.Anchor='Top,Left,Right'
-$install=Plain-Button $footer 'Install / update selected' 690 26 222;$install.Height=46;$install.Anchor='Top,Right';$install.BackColor=[Drawing.ColorTranslator]::FromHtml('#254f97');$install.ForeColor=[Drawing.Color]::White;$install.Font=[Drawing.Font]::new('Segoe UI',10,[Drawing.FontStyle]::Bold);$install.FlatAppearance.BorderSize=0
+$detail=Text-Control $footer '' 28 53 636 23 9 $false '#625e59';$detail.Anchor='Top,Left,Right'
+$install=Plain-Button $footer 'Install / update selected' 690 26 222;$install.Height=46;$install.Anchor='Top,Right';$install.BackColor=[Drawing.ColorTranslator]::FromHtml('#e3133b');$install.ForeColor=[Drawing.Color]::White;$install.Font=[Drawing.Font]::new('Segoe UI',10,[Drawing.FontStyle]::Bold);$install.FlatAppearance.BorderSize=0
 $form.Controls.Add($body);$form.Controls.Add($choices);$form.Controls.Add($footer);$form.Controls.Add($toolbar);$form.Controls.Add($header);$body.BringToFront()
 
 $script:Busy=$false;$script:InstalledTarget=$null;$script:UiError=$null
@@ -315,7 +315,7 @@ function Refresh-AppCards([bool]$reset){
   $label=$script:AppLabels[$app.name];$label.Text=$friendly[$state.status]
   $tip='Included version: '+$app.version;if($state.installed){$tip='Installed version: '+$state.installed+"`n"+$tip};if($state.detail){$tip=$state.detail+"`n"+$tip}
   $script:AppTips.SetToolTip($label,$tip);$script:AppTips.SetToolTip($script:AppChecks[$app.name],$tip)
-  $label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#607087')
+  $label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#625e59')
   if($state.status -eq 'Update available'){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#95620b')}
   if($state.status -eq 'Up to date'){$label.ForeColor=[Drawing.ColorTranslator]::FromHtml('#276545')}
   $check=$script:AppChecks[$app.name];$check.Enabled=$state.status -notin @('Newer than this bundle','Needs attention')
